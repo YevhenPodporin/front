@@ -6,6 +6,9 @@ import Typography from "@mui/material/Typography";
 import ImageWithStatus from "../ImageWithStatus/ImageWithStatus";
 import {useAppDispatch, useAppSelector} from "../../api/hooks/redux";
 import {fetchUserProfile} from "../../store/redusers/ActionCreator";
+import {privateRoutes} from "../../routes";
+import {popupSlice} from "../../store/redusers/ShowHiePopup";
+import PopupWrapper from "../PopupWrapper/PopupWrapper";
 
 type HeaderProps = {
     file_path?: string,
@@ -14,47 +17,34 @@ type HeaderProps = {
 }
 
 function Header() {
-    const {file_path,first_name, is_online} = useAppSelector(state => state.userProfileReducer.user)
-    const location = useLocation();
-    const [isShow, setIsShow] = useState(false);
+    const {file_path,first_name, is_online, last_name} = useAppSelector(state => state.userProfileReducer.user)
     const dispatch = useAppDispatch();
-
-    const navLinks = [
-        {title: 'Profile', url: '/profile'},
-        {title: 'Chat', url: '/chat'},
-        {title: 'Friends', url: '/friends'},
-    ]
     useEffect(() => {
-        if (location.pathname === '/login' || location.pathname === '/register') {
-            setIsShow(false)
-        } else {
-            setIsShow(true);
-        }
-        return () => {
-            setIsShow(false)
-        }
-    }, [location])
-    useEffect(() => {
-        dispatch(fetchUserProfile())
+         dispatch(fetchUserProfile())
     }, [])
-    return isShow ? (
+
+    const showPopup = () => {
+        dispatch(popupSlice.actions.showPopup(true))
+    }
+    return  (
         <header className={'header_main'}>
+            <PopupWrapper/>
             <Toolbar
                 component="nav"
                 variant="regular"
                 sx={{justifyContent: 'space-between', gap: 5, overflowX: 'auto'}}
             >
-                <div className={'left_side'}>
+                <div className={'left_side'} onClick={showPopup}>
                     <ImageWithStatus status={is_online} file_path={file_path}/>
-                    <Typography children={first_name}/>
+                    <Typography children={first_name + ' ' +last_name}/>
                 </div>
                 <div>
-                    {navLinks.map((link, index) => (
+                    {privateRoutes.map(({path,title},index) => (
                         <NavLink
                             key={index}
-                            to={link.url}
-                            children={link.title}
-                            className={({isActive, isPending}) => {
+                            to={path}
+                            children={title}
+                            className={({isActive}) => {
                                 return isActive ? 'active_link' : ''
                             }}
                         />
@@ -62,7 +52,7 @@ function Header() {
                 </div>
             </Toolbar>
         </header>
-    ) : null
+    )
 }
 
 export default Header;

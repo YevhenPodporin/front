@@ -1,0 +1,33 @@
+.popup_wrapper {
+  position: fixed;
+  top: -100%;
+  left: 0;
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  transform: perspective(500px);
+  animation: show-popup 0.3s ease-out forwards;
+
+  @keyframes show-popup {
+    from{
+      top: -100%;
+      transform: perspective(500px);
+    }
+    to {
+      top: 0;
+      transform: perspective(0);
+    }
+  }
+
+  .popup_body {
+    background: #4cd964;
+    min-width: 50vw;
+    max-width: 90vw;
+    width: 50vw;
+    height: 90%;
+  }
+}

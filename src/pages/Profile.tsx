@@ -6,11 +6,10 @@ import Header from "../components/Header/Header";
 
 function Profile() {
     const {signOut} = useAuth();
-
-
+    const user = useAppSelector(state => state.userProfileReducer.user)
     return (
         <Fragment>
-            <button onClick={signOut}>Sign out</button>
+            <button style={{marginTop:"100px"}} onClick={signOut}>Sign out</button>
         </Fragment>
     );
 }

@@ -10,7 +10,7 @@ export const fetchUserProfile = () => async (dispatch:AppDispatch)=> {
             headers:{authorization:`Bearer ${localStorage.getItem('token')}`}
         });
         dispatch(userSlice.actions.userProfileFetchingSuccess(response.data))
-    } catch (e){
-        // dispatch(userSlice.actions.userProfileFetchingError(e))
+    } catch (e:any){
+        dispatch(userSlice.actions.userProfileFetchingError(e))
     }
 }

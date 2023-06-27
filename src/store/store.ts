@@ -1,8 +1,9 @@
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
 import userProfileReducer from './redusers/UserProfileSlice';
+import popupReducer from './redusers/ShowHiePopup';
 
 const rootReducer = combineReducers({
-    userProfileReducer
+    userProfileReducer, popupReducer
 })
 
 export const setupStore = ()=>{
