@@ -1,0 +1,28 @@
+.image_wrapper{
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+  position: relative;
+  img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  span{
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border: 2px solid #ffffff;
+    position: absolute;
+    bottom: 3px;
+    right: 3px;
+    border-radius: 50%;
+  }
+  span.online{
+    background: #07bc0c;
+  }
+  span.offline{
+    background: #616161;
+  }
+}

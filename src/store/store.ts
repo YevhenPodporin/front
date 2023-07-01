@@ -3,12 +3,14 @@ import userProfileReducer from './redusers/UserProfileSlice';
 import popupReducer from './redusers/ShowHiePopup';
 
 const rootReducer = combineReducers({
-    userProfileReducer, popupReducer
+    userProfileReducer,
+    popupReducer
 })
 
 export const setupStore = ()=>{
     return configureStore({
-        reducer: rootReducer
+        reducer: rootReducer,
+        middleware:getDefaultMiddleware => getDefaultMiddleware()
     })
 }
 

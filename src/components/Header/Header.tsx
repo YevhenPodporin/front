@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './Header.scss';
 import {Toolbar} from "@mui/material";
-import {useLocation, NavLink} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import ImageWithStatus from "../ImageWithStatus/ImageWithStatus";
 import {useAppDispatch, useAppSelector} from "../../api/hooks/redux";
@@ -9,6 +9,7 @@ import {fetchUserProfile} from "../../store/redusers/ActionCreator";
 import {privateRoutes} from "../../routes";
 import {popupSlice} from "../../store/redusers/ShowHiePopup";
 import PopupWrapper from "../PopupWrapper/PopupWrapper";
+import UserProfilePopup from "../UserProfilePopup/UserProfilePopup";
 
 type HeaderProps = {
     file_path?: string,
@@ -28,7 +29,7 @@ function Header() {
     }
     return  (
         <header className={'header_main'}>
-            <PopupWrapper/>
+            <PopupWrapper children={<UserProfilePopup/>}/>
             <Toolbar
                 component="nav"
                 variant="regular"

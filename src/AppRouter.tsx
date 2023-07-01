@@ -7,8 +7,8 @@ import Login from "./pages/Login";
 type AppRouterPropsType = {
     isAuth: boolean
 }
-
 function AppRouter({isAuth}: AppRouterPropsType) {
+
     return isAuth ?
         (
             <Routes>

@@ -1,5 +1,7 @@
+import './ImageWithStatus.scss';
 import React from 'react';
 const EmptyAvatar = require("../../assets/images/empty-ava.png")
+
 type Image = {
     file_path?:string,
     status?:boolean
