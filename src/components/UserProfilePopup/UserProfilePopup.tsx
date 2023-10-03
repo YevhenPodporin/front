@@ -8,6 +8,7 @@ function UserProfilePopup() {
     return (
         <div className={'content_wrapper'}>
             <ImageWithStatus status={is_online} file_path={file_path}/>
+            <div className={''}>Your name: {first_name}</div>
         </div>
     );
 }

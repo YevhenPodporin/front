@@ -1,7 +1,13 @@
-.header_main{
-  background: linear-gradient(159.17deg, #9199 -9.41%, #000 97.45%);
+.header_main {
+  background: linear-gradient(159.17deg, rgba(100, 17, 136, 1) -9.41%, #000 97.45%);
   padding: 10px 0;
-  a{
+  position: fixed;
+  width: 100vw;
+  top: 0;
+  overflow: hidden;
+  z-index: 1;
+
+  a {
     text-decoration: none;
     font-size: 20px;
     color: #ffffff;
@@ -9,31 +15,19 @@
     transition: all 0.2s ease-out;
     position: relative;
     padding: 5px;
-    &:hover{
+
+    &:hover {
       color: #4cd964;
       backdrop-filter: blur(20px);
     }
   }
-  .active_link{
-    &:after{
-      content: '';
-      height: 2px;
-      width: 100%;
-      background: #4cd964;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      border-radius: 10px;
-    }
-  }
 
-  .left_side{
+  .left_side {
     display: flex;
     align-items: center;
     gap: 2vw;
     text-transform: uppercase;
     cursor: pointer;
-
-
+    color: white;
   }
 }

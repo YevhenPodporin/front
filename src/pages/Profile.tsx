@@ -1,12 +1,10 @@
-import React, {Fragment, useEffect} from 'react';
+import React, {Fragment} from 'react';
 import {useAuth} from "../api/hooks/useAuth";
-import {useAppDispatch, useAppSelector} from "../api/hooks/redux";
-import {fetchUserProfile} from "../store/redusers/ActionCreator";
-import Header from "../components/Header/Header";
+import {useAppSelector} from "../api/hooks/redux";
 
 function Profile() {
     const {signOut} = useAuth();
-    const user = useAppSelector(state => state.userProfileReducer.user)
+    // const user = useAppSelector(state => state.userProfileReducer.user)
     return (
         <Fragment>
             <button style={{marginTop:"100px"}} onClick={signOut}>Sign out</button>

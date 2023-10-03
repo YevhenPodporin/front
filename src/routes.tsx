@@ -1,36 +1,43 @@
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Chat from "./pages/Chat";
-import Friends from "./pages/Friends";
+import Network from "./pages/Network";
 import Register from "./pages/Register";
+import BasicTabs from './pages/Test';
 
 export const privateRoutes = [
     {
-        title:"Profile",
+        title: "Profile",
         path: '/profile',
         Component: Profile
     },
     {
-        title:"Chat",
+        title: "Chat",
         path: '/chat',
         Component: Chat
     },
     {
-        title:"Friends",
-        path: '/friends',
-        Component: Friends
-    }
+        title: "Network",
+        path: '/network',
+        Component: Network
+    },
+    {
+        title: "Test",
+        path: '/test',
+        Component: BasicTabs
+    },
 ]
 
 export const publicRoutes = [
     {
-        title:"Login",
+        title: "Login",
         path: '/login',
         Component: Login
     },
     {
-        title:"Register",
+        title: "Register",
         path: '/register',
         Component: Register
     }
 ];
+

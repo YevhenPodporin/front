@@ -7,17 +7,18 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
-import {useState} from "react";
-import {useAuth, userSignUpType} from "../api/hooks/useAuth";
-import moment, {isMoment} from "moment";
+import { useState } from "react";
+import {useAuth} from "../api/hooks/useAuth";
+import moment from "moment";
 import {Input} from "@mui/material";
+import { userSignUpType } from '../Types/user';
 const defaultTheme = createTheme();
 
-function Register({}) {
-    const {signUp,signIn,signOut,user} = useAuth();
+function Register() {
+    const {signUp} = useAuth();
     const [fileUrl, setFileUrl] = useState('');
     const [formData, setFormData] = useState<userSignUpType>({
         first_name: '',
@@ -25,16 +26,15 @@ function Register({}) {
         date_of_birth: '',
         email: '',
         password: '',
-        file:undefined
+        file:null
     });
-    const regExpEmail = /^((([0-9A-Za-z]{1}[-0-9A-z\.]{0,30}[0-9A-Za-z]?)|([0-9А-Яа-я]{1}[-0-9А-я\.]{0,30}[0-9А-Яа-я]?))@([-A-Za-z]{1,}\.){1,}[-A-Za-z]{2,})$/
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         signUp(formData)
     };
     const formChangeHandler = (e: React.ChangeEvent<HTMLFormElement>) => {
-        const target = e.target as typeof e.target
+        const { target } = e;
         if(target.id === ":r2:") return;
         if(target.id === 'avatar'){
             const file = target.files[0];
@@ -51,6 +51,7 @@ function Register({}) {
             return {...prev, date_of_birth:moment(date).format("YYYY-MM-DD")}
         })
     }
+
     return (
         <ThemeProvider theme={defaultTheme}>
             <Container component="main" maxWidth="xs" >
@@ -123,8 +124,7 @@ function Register({}) {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    error={!!formData.email && !regExpEmail.test(formData.email)}
-                                    helperText={"olegovich"}
+                                    // error={!!formData.email && !regExpEmail.test(formData.email)}
                                     fullWidth
                                     id="email"
                                     label="Email Address"

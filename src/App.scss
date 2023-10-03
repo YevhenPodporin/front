@@ -17,3 +17,34 @@
     object-fit: cover;
   }
 }
+
+a{
+  text-decoration: none;
+  font-size: 20px;
+  color: #ffffff;
+  letter-spacing: 1.3px;
+  transition: all 0.2s ease-out;
+  position: relative;
+  padding: 5px;
+  &:hover{
+    color: #4cd964;
+    backdrop-filter: blur(20px);
+  }
+}
+.active_link{
+  &:after{
+    content: '';
+    height: 2px;
+    width: 100%;
+    background: #4cd964;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-radius: 10px;
+  }
+}
+#search_users{
+  margin: 0;
+  border-radius: 5px;
+  padding: 10px;
+}

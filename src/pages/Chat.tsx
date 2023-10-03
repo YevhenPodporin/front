@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 function Chat() {
+
     return (
-        <div></div>
+        <div>
+            OLEG
+        </div>
     );
 }
 
