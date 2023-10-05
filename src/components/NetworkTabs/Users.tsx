@@ -1,6 +1,6 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import { Grid } from '@mui/material';
+import { CircularProgress, Grid } from '@mui/material';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import UserCardItem from '../UserCardItem/UserCardItem';
 import { RequestStatus, UserProfile } from '../../Types/Network';
@@ -18,11 +18,12 @@ interface TabPanelProps {
     onSearch: (value: string) => void;
     searchValue?: string;
     requestHandler: () => void
+    isFetching:boolean
 }
 
 
 function Users(props: TabPanelProps) {
-    const {children,searchValue, value,requestHandler, index, userDataLength, onSearch, nextFunction, tabValue, hasMore, users, ...other} = props;
+    const {children,isFetching,searchValue, value,requestHandler, index, userDataLength, onSearch, nextFunction, tabValue, hasMore, users, ...other} = props;
 
     return (
         <div
@@ -31,9 +32,10 @@ function Users(props: TabPanelProps) {
             id={`full-width-tabpanel-${index}`}
             aria-labelledby={`full-width-tab-${index}`}
             {...other}>
-            {/*{isLoading && <CircularProgress sx={{position: 'fixed', top: '50%', left: '50%'}}/>}*/}
+            {isFetching && <CircularProgress sx={{position: 'fixed', top: '50%', left: '50%'}}/>}
             {value === index && (<><Box display={'flex'} justifyContent={'center'} mt={5}>
                 <DebounceInput
+                    placeholder={'Example: Oleg Igorevich'}
                     debounceTimeout={300}
                     onChange={(e) => onSearch(e.target.value)}
                     value={searchValue}

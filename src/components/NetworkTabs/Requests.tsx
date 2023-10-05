@@ -39,6 +39,7 @@ function Requests({value,index}:props) {
     return (
         <div>
             <Users
+                isFetching={isFetching}
                 requestHandler={requestHandler}
                 value={value}
                 index={index}

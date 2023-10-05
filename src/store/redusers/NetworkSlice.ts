@@ -109,9 +109,6 @@ export const networkSlice = createSlice({
             state.list[type].params.filter.search = value;
         },
 
-        removeFromFriend(state,action:PayloadAction<number>){
-          state.list.my.data.filter(user=>user.user_id !==action.payload)
-        },
         networkFetchingError(state, action: PayloadAction<string>) {
             state.isLoading = false
             state.error = action.payload

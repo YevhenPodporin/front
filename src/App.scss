@@ -47,4 +47,10 @@ a{
   margin: 0;
   border-radius: 5px;
   padding: 10px;
+  position: relative;
+  &:after{
+    content: 'Search friends';
+    position: absolute;
+    right: 20px;
+  }
 }

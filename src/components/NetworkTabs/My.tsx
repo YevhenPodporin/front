@@ -4,6 +4,7 @@ import { RequestStatus } from '../../Types/Network';
 import { NetworkApi, useFetchMyFriendsQuery } from '../../store/services/NetworkService';
 import { ListType, networkSlice } from '../../store/redusers/NetworkSlice';
 import Users from './Users';
+import { CircularProgress } from '@mui/material';
 
 type props = {
     index: number,
@@ -38,7 +39,9 @@ function My({value, index}: props) {
     }
 
     return (
+
         <Users
+            isFetching={isFetching}
             requestHandler={requestHandler}
             value={value}
             index={index}
