@@ -38,7 +38,7 @@ function Header() {
                 </div>
                 <nav className={'header__links'}>
                     {privateRoutes.map(({path, title}, index) => {
-                        return (
+                        return path !== '*' && (
                             <NavLink
                                 key={index}
                                 to={path.includes('/network/*')?'/network/my':path}

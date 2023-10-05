@@ -1,22 +1,22 @@
 import { RequestStatus, UserProfile } from '../../Types/Network';
-import { Button, Card, CardActions, CardContent, Grid, Typography } from '@mui/material';
+import { Button, ButtonGroup, Card, CardActions, CardContent, Grid, Typography } from '@mui/material';
 import { NetworkApi } from '../../store/services/NetworkService';
 import ImageWithStatus from '../ImageWithStatus/ImageWithStatus';
 import React, { useEffect } from 'react';
 import { useAppDispatch } from '../../api/hooks/redux';
-import { networkSlice } from '../../store/redusers/NetworkSlice';
 
 type UserCardItemProps = {
     user: UserProfile,
     tabValue: RequestStatus | null | undefined,
+    requestHandler: () => void
+
 }
 
 
-function UserCardItem({user, tabValue,}: UserCardItemProps) {
+function UserCardItem({user, tabValue, requestHandler}: UserCardItemProps) {
     const [userRequest, {isSuccess}] = NetworkApi.useRequestToFriendMutation()
-    const dispatch = useAppDispatch();
 
-    const handleClick = async () => {
+    const handleClickLeftButton = async () => {
         await userRequest({
             to_user_id: user.user_id,
             status: tabValue === RequestStatus.REQUEST
@@ -26,16 +26,31 @@ function UserCardItem({user, tabValue,}: UserCardItemProps) {
                     : RequestStatus.REQUEST
         })
     }
+
+    const handleClickRightButton = async () => {
+        if (tabValue === RequestStatus.REQUEST) {
+            await userRequest({
+                to_user_id: user.user_id,
+                status: RequestStatus.REJECTED
+            })
+        }
+    }
+
     useEffect(() => {
         if (isSuccess) {
-            dispatch(networkSlice.actions.removeFromFriend(user.user_id))
+            requestHandler()
         }
     }, [isSuccess])
-
     return (
-        <Grid item xs={2} sm={4} md={4} key={user.id}>
-            <Card sx={{maxWidth: '100%'}}>
-                <CardContent style={{justifyContent: 'center'}}>
+        <Grid item xs={2} sm={4} md={5} key={user.id}>
+            <Card>
+                <CardContent
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center'
+                    }}
+                >
                     <ImageWithStatus status={user.is_online} file_path={user.file_path}/>
 
                     <Typography gutterBottom variant="h5" component="div">
@@ -45,14 +60,18 @@ function UserCardItem({user, tabValue,}: UserCardItemProps) {
                         {user.last_name}
                     </Typography>
                 </CardContent>
-                <CardActions>
-                    <Button
-                        onClick={handleClick}
-                        size="small">{tabValue === null
-                        ? 'Add to friend'
-                        : tabValue === RequestStatus.REQUEST ? 'Approved'
-                            : 'Remove from friend'}</Button>
-                    <Button size="small">Send message</Button>
+                <CardActions style={{justifyContent: 'center'}}>
+                    <ButtonGroup size="small" aria-label="small button group">
+                        <Button
+                            onClick={handleClickLeftButton}
+                        >{tabValue === null
+                            ? 'Add to friend'
+                            : tabValue === RequestStatus.REQUEST ? 'Approved'
+                                : 'Dismiss'}</Button>
+                        <Button onClick={handleClickRightButton}>{
+                            tabValue === RequestStatus.REQUEST ? 'Dismiss' : 'Send message'
+                        }</Button>
+                    </ButtonGroup>
                 </CardActions>
             </Card>
         </Grid>

@@ -21,3 +21,7 @@ body {
   padding-top: 100px;
   padding-left: 18px;
 }
+
+.Toastify__toast-body > div:last-child{
+  word-break: keep-all !important;
+}

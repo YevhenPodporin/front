@@ -27,10 +27,15 @@ function All({value, index}: props) {
             dispatch(networkSlice.actions.allUsersFetchingSuccess(currentData.list))
         }
     }, [isFetching, currentData])
+    const requestHandler = () => {
+        dispatch(NetworkApi.util.resetApiState())
+        dispatch(networkSlice.actions.clearState())
+    }
 
     return (
         <div>
             <Users
+                requestHandler={requestHandler}
                 value={value}
                 index={index}
                 users={users.data}

@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { privateRoutes, publicRoutes } from "./routes";
-import NotFoundPage from "./pages/_404";
+
 import Login from "./pages/Login";
 import PrivateRoute from './providers/PrivateRouteComponent';
 
@@ -11,7 +11,7 @@ function AppRouter() {
                 <Route
                     key={index}
                     path={path}
-                    element={<PrivateRoute element={<Component/>}/>}
+                    element={path === '*'?<Component/>:<PrivateRoute element={<Component/>}/>}
                     index={true}
                 />
             )
@@ -23,8 +23,6 @@ function AppRouter() {
             )
         })}
         <Route path="*" element={<Login/>} index={false}/>
-        <Route path="*" element={<NotFoundPage/>} index={false}/>
-
     </Routes>
 }
 

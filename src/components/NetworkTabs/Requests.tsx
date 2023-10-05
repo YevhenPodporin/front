@@ -31,10 +31,15 @@ function Requests({value,index}:props) {
         dispatch(NetworkApi.util.resetApiState())
         dispatch(networkSlice.actions.searchUsers({value, type:ListType.request}));
     }
+    const requestHandler = () => {
+        dispatch(NetworkApi.util.resetApiState())
+        dispatch(networkSlice.actions.clearState())
+    }
 
     return (
         <div>
             <Users
+                requestHandler={requestHandler}
                 value={value}
                 index={index}
                 users={users.data}

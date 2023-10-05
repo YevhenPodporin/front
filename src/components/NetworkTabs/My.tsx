@@ -13,13 +13,13 @@ type props = {
 function My({value, index}: props) {
     const dispatch = useAppDispatch();
     const users = useAppSelector(state => state.networkSlice.list.my);
-    const {data, isSuccess, isFetching, currentData} = useFetchMyFriendsQuery(users.params);
+    const {data, isFetching, currentData} = useFetchMyFriendsQuery(users.params);
 
     useEffect(() => {
-        if (currentData && data) {
+        if (currentData && data && !isFetching) {
             dispatch(networkSlice.actions.myFriendsFetchingSuccess(currentData.list))
         }
-    }, [isSuccess, currentData])
+    }, [isFetching, currentData])
 
     const fetchNextData = () => {
         if (data && users.data.length < data.count) {
@@ -29,11 +29,17 @@ function My({value, index}: props) {
 
     const onSearch = (value: string) => {
         dispatch(NetworkApi.util.resetApiState())
-        dispatch(networkSlice.actions.searchUsers({value, type: ListType.request}));
+        dispatch(networkSlice.actions.searchUsers({value, type: ListType.my}));
+    }
+
+    const requestHandler = (): void => {
+        dispatch(NetworkApi.util.resetApiState())
+        dispatch(networkSlice.actions.clearState())
     }
 
     return (
         <Users
+            requestHandler={requestHandler}
             value={value}
             index={index}
             users={users.data}

@@ -16,12 +16,13 @@ interface TabPanelProps {
     users: UserProfile[] | [];
     tabValue: RequestStatus | null;
     onSearch: (value: string) => void;
-    searchValue?: string
+    searchValue?: string;
+    requestHandler: () => void
 }
 
 
 function Users(props: TabPanelProps) {
-    const {children,searchValue, value, index, userDataLength, onSearch, nextFunction, tabValue, hasMore, users, ...other} = props;
+    const {children,searchValue, value,requestHandler, index, userDataLength, onSearch, nextFunction, tabValue, hasMore, users, ...other} = props;
 
     return (
         <div
@@ -60,6 +61,7 @@ function Users(props: TabPanelProps) {
                                         key={index}
                                         user={user}
                                         tabValue={tabValue}
+                                        requestHandler={requestHandler}
                                     />
                                 ))}
                             </Grid>

@@ -4,6 +4,7 @@ import Chat from "./pages/Chat";
 import Network from "./pages/Network";
 import Register from "./pages/Register";
 import BasicTabs from './pages/Test';
+import NotFoundPage from './pages/_404';
 
 export const privateRoutes = [
     {
@@ -26,6 +27,11 @@ export const privateRoutes = [
         path: '/test',
         Component: BasicTabs
     },
+    {
+        title: 'Not found',
+        path: '*',
+        Component:NotFoundPage
+    }
 ]
 
 export const publicRoutes = [

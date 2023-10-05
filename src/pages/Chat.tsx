@@ -1,11 +1,10 @@
-import React, { useEffect, useRef } from 'react';
 
 function Chat() {
 
     return (
-        <div>
-            OLEG
-        </div>
+        <h1>
+            Here will be a chat
+        </h1>
     );
 }
 
