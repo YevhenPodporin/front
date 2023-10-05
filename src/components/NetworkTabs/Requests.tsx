@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../api/hooks/redux';
-import { NetworkApi } from '../../store/services/NetworkService';
-import { networkSlice } from '../../store/redusers/NetworkSlice';
+import { NetworkApi, useFetchRequestsQuery } from '../../store/services/NetworkService';
+import { ListType, networkSlice } from '../../store/redusers/NetworkSlice';
 import Users from './Users';
 import { RequestStatus } from '../../Types/Network';
 
@@ -13,24 +13,23 @@ type props = {
 function Requests({value,index}:props) {
     const dispatch = useAppDispatch();
     const users = useAppSelector(state =>  state.networkSlice.list.request);
-    const {data, isSuccess} = NetworkApi.useFetchRequestsQuery(users.params);
+    const {data, isSuccess, isFetching, currentData} = useFetchRequestsQuery(users.params);
 
     useEffect(() => {
-        if (isSuccess ) {
-            dispatch(networkSlice.actions.requestsFetchingSuccess(data.list))
+        if (currentData ) {
+            dispatch(networkSlice.actions.requestsFetchingSuccess(currentData.list))
         }
-    }, [isSuccess])
+    }, [isSuccess, currentData])
 
-    const fetchData = () => {
+    const fetchNextData = () => {
         if (data && users.data.length < data.count) {
-            dispatch(networkSlice.actions.nextPageRequests());
-            dispatch(networkSlice.actions.requestsFetchingSuccess(data.list))
+            dispatch(networkSlice.actions.nextPage(ListType.request));
         }
     }
 
-
     const onSearch = (value: string) => {
-
+        dispatch(NetworkApi.util.resetApiState())
+        dispatch(networkSlice.actions.searchUsers({value, type:ListType.request}));
     }
 
     return (
@@ -40,10 +39,12 @@ function Requests({value,index}:props) {
                 index={index}
                 users={users.data}
                 tabValue={RequestStatus.REQUEST}
-                hasMore={data ? users.data.length < data.count : true}
+                hasMore={data ? users.data.length < data.count && !isFetching : false}
                 onSearch={onSearch}
-                nextFunction={fetchData}
-                userDataLength={data?users.data.length:0}
+                searchValue={users.params.filter.search}
+                nextFunction={fetchNextData}
+                userDataLength={users.data.length}
+
             />
         </div>
     );

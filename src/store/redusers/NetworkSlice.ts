@@ -69,6 +69,12 @@ const initialState: NetworkState = {
     error: '',
 }
 
+export enum ListType {
+    my = "my",
+    request = "request",
+    all = "all",
+}
+
 export const networkSlice = createSlice({
     name: 'getUsers',
     initialState,
@@ -76,49 +82,36 @@ export const networkSlice = createSlice({
         networkFetching(state) {
             state.isLoading = true
         },
+        clearState(state) {
+            state = initialState
+        },
         myFriendsFetchingSuccess(state, action: PayloadAction<UserProfile[] | []>) {
-            if (JSON.stringify(state.list.my.data) !== JSON.stringify(action.payload)) {
                 state.isLoading = false;
-                state.list.my.data = [...state.list.my.data, ...action.payload]
-            }
+                state.list.my.data = action.payload
         },
         requestsFetchingSuccess(state, action: PayloadAction<UserProfile[] | []>) {
-            if (JSON.stringify(state.list.request.data) !== JSON.stringify(action.payload)) {
                 state.isLoading = false;
-                state.list.request.data = [...state.list.request.data, ...action.payload]
-            }
+                state.list.request.data = action.payload
         },
         allUsersFetchingSuccess(state, action: PayloadAction<UserProfile[] | []>) {
-            if (JSON.stringify(state.list.all.data) !== JSON.stringify(action.payload)) {
                 state.isLoading = false;
-                state.list.all.data = [...state.list.all.data, ...action.payload]
-            }
-        },
-        nextPageMyFriends(state, action: PayloadAction) {
-            state.list.my.params.pagination.skip = state.list.my.params.pagination.skip + state.list.my.params.pagination.take
-        },
-        nextPageRequests(state, action: PayloadAction) {
-            state.list.request.params.pagination.skip = state.list.request.params.pagination.skip + state.list.request.params.pagination.take
-        },
-        nextPageAllUsers(state, action: PayloadAction) {
-            state.list.all.params.pagination.skip = state.list.all.params.pagination.skip + state.list.all.params.pagination.take
-        },
-        myFriendsSearch(state, action: PayloadAction<string>) {
-            state.list.my = initialState.list.my
-            state.list.my.params.filter.search = action.payload
-        },
-        requestSearch(state, action: PayloadAction<string>) {
-            state.list.request = initialState.list.my
-            state.list.request.params.filter.search = action.payload
-        },
-        allSearch(state, action: PayloadAction<string>) {
-            state.list.all.data = [];
-            state.list.all.params.pagination = initialState.list.all.params.pagination;
-            state.list.all.params.filter.search = action.payload;
+                state.list.all.data = action.payload
         },
 
+        nextPage(state, action: PayloadAction<ListType>) {
+            state.list[action.payload].params.pagination.skip = state.list[action.payload].params.pagination.skip + state.list[action.payload].params.pagination.take
+        },
 
+        searchUsers(state, action: PayloadAction<{value:string,type:ListType}>) {
+            const {value,type} = action.payload
+            state.list[type].data = [];
+            state.list[type].params.pagination = initialState.list[type].params.pagination;
+            state.list[type].params.filter.search = value;
+        },
 
+        removeFromFriend(state,action:PayloadAction<number>){
+          state.list.my.data.filter(user=>user.user_id !==action.payload)
+        },
         networkFetchingError(state, action: PayloadAction<string>) {
             state.isLoading = false
             state.error = action.payload

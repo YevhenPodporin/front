@@ -62,10 +62,19 @@ export const useAuth = () => {
             // navigate("/login")
         }
     }
-    const signOut = () => {
-        localStorage.removeItem('token')
-        navigate('/login');
-        setUser(null);
+    const signOut = async () => {
+             await axios.post(`${process.env.REACT_APP_PUBLIC_URL}/sign_out`,null,{
+                headers:{
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                }
+            }).then(()=>{
+                 localStorage.removeItem('token')
+                 navigate('/login');
+                 setUser(null);
+             }).catch(()=>{
+                 toast.error("An Error Occuered")
+             })
+
     };
 
     return { user, signIn, signUp, signOut,checkIsAuth };

@@ -1,7 +1,7 @@
 export interface PaginationParams {
     filter: {
         status?: RequestStatus | null
-        search?: string | null
+        search: string
     },
     pagination: {
         take: number,

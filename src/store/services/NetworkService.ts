@@ -12,7 +12,7 @@ export const NetworkApi = createApi({
             return headers
         }
     }),
-
+    tagTypes: ['Request', 'Search'],
     endpoints: (build) => {
 
         const baseBuild = build.query<UsersResponse, PaginationParams>({
@@ -21,7 +21,7 @@ export const NetworkApi = createApi({
                     url: `/get_users?${objectToQueryString(arg)}`,
                 }
             },
-            serializeQueryArgs: ({ endpointName }) => {
+            serializeQueryArgs: ({endpointName}) => {
                 return endpointName
             },
 
@@ -35,7 +35,7 @@ export const NetworkApi = createApi({
                 }
                 return currentCache;
             },
-            forceRefetch({ currentArg, previousArg }) {
+            forceRefetch({currentArg, previousArg}) {
                 return currentArg !== previousArg;
             },
 
@@ -44,7 +44,12 @@ export const NetworkApi = createApi({
                     toast.error(baseQueryReturnValue.data.errors)
                     return baseQueryReturnValue.data.errors
                 }
+            },
+            providesTags: (result, error, arg) => {
+                const searchTag = arg.filter.search || 'no_search'; // Если параметр поиска не указан, используйте 'no_search' в качестве id
+                return ['Request',{ type: 'Search', id: searchTag }];
             }
+
         })
         return {
             fetchAllUsers: baseBuild,
@@ -59,6 +64,12 @@ export const NetworkApi = createApi({
                         body: {...request},
                     }
                 },
+                invalidatesTags: (result) => {
+                    if (result && !result.errors) {
+                        toast.success(result.message)
+                    }
+                    return [{type:'Request', id:'Request'}]
+                },
                 transformErrorResponse(baseQueryReturnValue: any) {
                     if (baseQueryReturnValue && baseQueryReturnValue.data.errors) {
                         toast.error(baseQueryReturnValue.data.errors)
@@ -69,4 +80,11 @@ export const NetworkApi = createApi({
         }
     }
 })
+
+export const {
+    useFetchAllUsersQuery,
+    useFetchMyFriendsQuery,
+    useFetchRequestsQuery,
+    useRequestToFriendMutation
+} = NetworkApi
 

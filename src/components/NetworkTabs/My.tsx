@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../api/hooks/redux';
 import { RequestStatus } from '../../Types/Network';
-import { NetworkApi } from '../../store/services/NetworkService';
-import { networkSlice } from '../../store/redusers/NetworkSlice';
+import { NetworkApi, useFetchMyFriendsQuery } from '../../store/services/NetworkService';
+import { ListType, networkSlice } from '../../store/redusers/NetworkSlice';
 import Users from './Users';
 
 type props = {
@@ -12,42 +12,41 @@ type props = {
 
 function My({value, index}: props) {
     const dispatch = useAppDispatch();
-
     const users = useAppSelector(state => state.networkSlice.list.my);
-    const {data, isSuccess} = NetworkApi.useFetchMyFriendsQuery(users.params);
+    const {data, isSuccess, isFetching, currentData} = useFetchMyFriendsQuery(users.params);
 
     useEffect(() => {
-        if (isSuccess ) {
-            dispatch(networkSlice.actions.myFriendsFetchingSuccess(data.list))
+        if (currentData && data) {
+            dispatch(networkSlice.actions.myFriendsFetchingSuccess(currentData.list))
         }
-    }, [isSuccess])
+    }, [isSuccess, currentData])
 
-    const fetchData = () => {
+    const fetchNextData = () => {
         if (data && users.data.length < data.count) {
-            dispatch(networkSlice.actions.nextPageMyFriends());
-            // dispatch(networkSlice.actions.myFriendsFetchingSuccess(data.list))
+            dispatch(networkSlice.actions.nextPage(ListType.my));
         }
     }
 
-
     const onSearch = (value: string) => {
-
+        dispatch(NetworkApi.util.resetApiState())
+        dispatch(networkSlice.actions.searchUsers({value, type: ListType.request}));
     }
 
     return (
-        <div>
-            <Users
-                value={value}
-                index={index}
-                users={users.data}
-                tabValue={RequestStatus.APPROVED}
-                hasMore={data ? users.data.length < data.count : false}
-                onSearch={onSearch}
-                nextFunction={fetchData}
-                userDataLength={data?users.data.length:0}
-            />
-        </div>
+        <Users
+            value={value}
+            index={index}
+            users={users.data}
+            tabValue={RequestStatus.APPROVED}
+            hasMore={data ? users.data.length < data.count && !isFetching : false}
+            onSearch={onSearch}
+            searchValue={users.params.filter.search}
+            nextFunction={fetchNextData}
+            userDataLength={users.data.length}
+        />
     );
 }
 
 export default My;
+
+

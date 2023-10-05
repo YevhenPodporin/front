@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../api/hooks/redux';
-import { NetworkApi } from '../../store/services/NetworkService';
-import  { networkSlice } from '../../store/redusers/NetworkSlice';
+import { NetworkApi, useFetchAllUsersQuery } from '../../store/services/NetworkService';
+import { ListType, networkSlice } from '../../store/redusers/NetworkSlice';
 import Users from './Users';
 
 type props = {
@@ -12,36 +12,40 @@ type props = {
 function All({value, index}: props) {
     const dispatch = useAppDispatch();
     const users = useAppSelector(state => state.networkSlice.list.all);
-    const {data, isFetching, currentData} = NetworkApi.useFetchAllUsersQuery(users.params);
+    const {data, isFetching, currentData} = useFetchAllUsersQuery(users.params);
 
-    useEffect(() => {
-        if (data && !isFetching) {
-            // dispatch(networkSlice.actions.allUsersFetchingSuccess(data.list))
-        }
-    }, [isFetching, data])
-
-    const fetchData = () => {
-        dispatch(networkSlice.actions.nextPageAllUsers());
+    const fetchNextData = () => {
+        dispatch(networkSlice.actions.nextPage(ListType.all));
     }
 
     const onSearch = (value: string) => {
-        dispatch(networkSlice.actions.allSearch(value));
+        dispatch(NetworkApi.util.resetApiState())
+        dispatch(networkSlice.actions.searchUsers({value, type:ListType.all}));
     }
+    useEffect(() => {
+        if (currentData) {
+            dispatch(networkSlice.actions.allUsersFetchingSuccess(currentData.list))
+        }
+    }, [isFetching, currentData])
 
     return (
         <div>
             <Users
                 value={value}
                 index={index}
-                users={data?.list ?? []}
+                users={users.data}
                 tabValue={null}
-                hasMore={data ? data.list.length < data.count && !isFetching: false}
+                hasMore={data ? users.data.length < data.count && !isFetching : false}
                 onSearch={onSearch}
-                nextFunction={fetchData}
-                userDataLength={ data?.list.length ?? 0}
+                searchValue={users.params.filter.search}
+                nextFunction={fetchNextData}
+                userDataLength={users.data.length}
             />
         </div>
     );
 }
 
 export default All;
+
+
+//TODO сделать поиск, и попробовать добавление юзеров в стор и брать их от туда

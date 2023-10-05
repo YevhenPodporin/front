@@ -4,7 +4,7 @@ import { Grid } from '@mui/material';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import UserCardItem from '../UserCardItem/UserCardItem';
 import { RequestStatus, UserProfile } from '../../Types/Network';
-import {DebounceInput} from 'react-debounce-input';
+import { DebounceInput } from 'react-debounce-input';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -16,11 +16,12 @@ interface TabPanelProps {
     users: UserProfile[] | [];
     tabValue: RequestStatus | null;
     onSearch: (value: string) => void;
+    searchValue?: string
 }
 
 
 function Users(props: TabPanelProps) {
-    const {children, value, index, userDataLength, onSearch, nextFunction, tabValue, hasMore, users, ...other} = props;
+    const {children,searchValue, value, index, userDataLength, onSearch, nextFunction, tabValue, hasMore, users, ...other} = props;
 
     return (
         <div
@@ -34,6 +35,7 @@ function Users(props: TabPanelProps) {
                 <DebounceInput
                     debounceTimeout={300}
                     onChange={(e) => onSearch(e.target.value)}
+                    value={searchValue}
                     id={'search_users'}
                     label="Search users"
                     autoComplete={'false'}/>
