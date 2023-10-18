@@ -17,7 +17,7 @@ function Requests({value,index}:props) {
 
     useEffect(() => {
         if (currentData ) {
-            dispatch(networkSlice.actions.requestsFetchingSuccess(currentData.list))
+            dispatch(networkSlice.actions.usersFetchingSuccess({data:currentData.list, type:ListType.request}))
         }
     }, [isSuccess, currentData])
 

@@ -54,3 +54,24 @@ a{
     right: 20px;
   }
 }
+
+
+
+
+
+
+.test-page{
+  height: calc(100vh - 90px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  .list{
+    height: auto;
+  }
+  form{
+    width: 100%;
+    input{
+      width: 50%;
+    }
+  }
+}

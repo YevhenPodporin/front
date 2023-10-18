@@ -8,6 +8,8 @@ export type userSignUpType = {
     first_name:string,
     last_name:string,
     date_of_birth:string,
-    file?:null,
+    file?:File | null,
     password:string,
 }
+
+export interface userEditProfile extends Omit<userSignUpType, 'password'>{}

@@ -4,8 +4,9 @@ import {toast} from "react-toastify";
 
 function NotFoundPage() {
     const navigate = useNavigate();
+
     setTimeout(()=>{
-        navigate('/profile')
+        navigate(-1)
     },2000)
     toast.error("Page not found. You will redirect automatically")
     return (

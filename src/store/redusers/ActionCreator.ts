@@ -2,6 +2,7 @@ import {AppDispatch} from "../store";
 import {userSlice} from "./UserProfileSlice";
 import axios from "axios";
 import {UserProfile} from "../../api/models/UserProfile";
+import { toast } from 'react-toastify';
 
 export const fetchUserProfile = () => async (dispatch:AppDispatch)=> {
     try {
@@ -11,6 +12,7 @@ export const fetchUserProfile = () => async (dispatch:AppDispatch)=> {
         });
         dispatch(userSlice.actions.userProfileFetchingSuccess(response.data))
     } catch (e:any){
-        dispatch(userSlice.actions.userProfileFetchingError(e))
+        toast.error(e.response.data)
+        dispatch(userSlice.actions.userProfileFetchingError(e.response.data))
     }
 }

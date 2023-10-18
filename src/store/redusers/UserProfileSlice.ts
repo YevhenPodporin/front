@@ -5,14 +5,14 @@ interface UserProfileState {
     user: UserProfile,
     isLoading: boolean,
     error: string,
-};
+}
 
 const initialState: UserProfileState = {
     user: {
         email: '',
         date_of_birth: '',
         file_path: '',
-        id: 0,
+        id: null,
         first_name: '',
         last_name: '',
         is_online: false
@@ -27,10 +27,12 @@ export const userSlice = createSlice({
     reducers:{
         userProfileFetching(state){
             state.isLoading = true
+            state.error = ''
         },
         userProfileFetchingSuccess(state,action:PayloadAction<UserProfile>){
             state.isLoading = false
             state.user = action.payload
+            state.error = ''
         },
         userProfileFetchingError(state,action:PayloadAction<string>){
             state.isLoading = false

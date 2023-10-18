@@ -1,5 +1,5 @@
 export interface UserProfile {
-    id?:number,
+    id:number | null,
     first_name:string,
     last_name:string,
     date_of_birth:string,
@@ -7,3 +7,4 @@ export interface UserProfile {
     is_online:boolean,
     email:string
 }
+

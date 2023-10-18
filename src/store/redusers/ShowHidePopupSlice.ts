@@ -12,7 +12,7 @@ export const popupSlice = createSlice({
     name:'showHidePopup',
     initialState,
     reducers:{
-        showPopup(state,action:PayloadAction<boolean>){
+        showPopup(state){
             state.isShow = true
         },
         hidePopup(state){

@@ -24,9 +24,10 @@ function All({value, index}: props) {
     }
     useEffect(() => {
         if (currentData) {
-            dispatch(networkSlice.actions.allUsersFetchingSuccess(currentData.list))
+            dispatch(networkSlice.actions.usersFetchingSuccess({data:currentData.list, type:ListType.all}))
         }
     }, [isFetching, currentData])
+
     const requestHandler = () => {
         dispatch(NetworkApi.util.resetApiState())
         dispatch(networkSlice.actions.clearState())
@@ -52,6 +53,3 @@ function All({value, index}: props) {
 }
 
 export default All;
-
-
-//TODO сделать поиск, и попробовать добавление юзеров в стор и брать их от туда

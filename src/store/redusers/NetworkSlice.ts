@@ -85,25 +85,18 @@ export const networkSlice = createSlice({
         clearState(state) {
             state = initialState
         },
-        myFriendsFetchingSuccess(state, action: PayloadAction<UserProfile[] | []>) {
-                state.isLoading = false;
-                state.list.my.data = action.payload
-        },
-        requestsFetchingSuccess(state, action: PayloadAction<UserProfile[] | []>) {
-                state.isLoading = false;
-                state.list.request.data = action.payload
-        },
-        allUsersFetchingSuccess(state, action: PayloadAction<UserProfile[] | []>) {
-                state.isLoading = false;
-                state.list.all.data = action.payload
+        usersFetchingSuccess(state, action: PayloadAction<{ data: UserProfile[] | [], type: ListType }>) {
+            const {data, type} = action.payload
+            state.isLoading = false;
+            state.list[type].data = data
         },
 
         nextPage(state, action: PayloadAction<ListType>) {
             state.list[action.payload].params.pagination.skip = state.list[action.payload].params.pagination.skip + state.list[action.payload].params.pagination.take
         },
 
-        searchUsers(state, action: PayloadAction<{value:string,type:ListType}>) {
-            const {value,type} = action.payload
+        searchUsers(state, action: PayloadAction<{ value: string, type: ListType }>) {
+            const {value, type} = action.payload
             state.list[type].data = [];
             state.list[type].params.pagination = initialState.list[type].params.pagination;
             state.list[type].params.filter.search = value;
@@ -114,5 +107,6 @@ export const networkSlice = createSlice({
             state.error = action.payload
         },
     }
-})
+});
+
 export default networkSlice.reducer;

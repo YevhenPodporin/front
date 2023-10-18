@@ -12,16 +12,17 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-y: scroll;
   overflow-x: hidden;
   width:100vw;
 }
 
 .main_wrapper{
-  padding-top: 100px;
-  padding-left: 18px;
+  padding-top: 84px;
 }
 
 .Toastify__toast-body > div:last-child{
   word-break: keep-all !important;
 }
+
+
+

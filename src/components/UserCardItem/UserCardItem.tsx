@@ -3,7 +3,10 @@ import { Button, ButtonGroup, Card, CardActions, CardContent, Grid, Typography }
 import { NetworkApi } from '../../store/services/NetworkService';
 import ImageWithStatus from '../ImageWithStatus/ImageWithStatus';
 import React, { useEffect } from 'react';
-import { useAppDispatch } from '../../api/hooks/redux';
+import { CreateChatType } from '../../Types/Chat';
+import { useAppSelector } from '../../api/hooks/redux';
+import { useCreateChatMutation } from '../../store/services/ChatService';
+import { useNavigate } from 'react-router-dom';
 
 type UserCardItemProps = {
     user: UserProfile,
@@ -12,10 +15,11 @@ type UserCardItemProps = {
 
 }
 
-
 function UserCardItem({user, tabValue, requestHandler}: UserCardItemProps) {
     const [userRequest, {isSuccess}] = NetworkApi.useRequestToFriendMutation()
-
+    const myProfile = useAppSelector(state => state.userProfileReducer.user)
+    const [createChat, {data, isSuccess: isCreated}] = useCreateChatMutation();
+    const navigate = useNavigate();
     const handleClickLeftButton = async () => {
         await userRequest({
             to_user_id: user.user_id,
@@ -34,6 +38,9 @@ function UserCardItem({user, tabValue, requestHandler}: UserCardItemProps) {
                 status: RequestStatus.REJECTED
             })
         }
+        if (tabValue === RequestStatus.APPROVED && myProfile.id) {
+            createChat({from_user_id: myProfile.id, to_user_id: user.user_id})
+        }
     }
 
     useEffect(() => {
@@ -41,6 +48,11 @@ function UserCardItem({user, tabValue, requestHandler}: UserCardItemProps) {
             requestHandler()
         }
     }, [isSuccess])
+    useEffect(() => {
+        if (isCreated && data) {
+            navigate('/chat/' + data.chat.id)
+        }
+    }, [isCreated])
     return (
         <Grid item xs={2} sm={4} md={5} key={user.id}>
             <Card>

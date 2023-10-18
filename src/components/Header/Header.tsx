@@ -1,28 +1,50 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Header.scss';
 import { Toolbar } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import ImageWithStatus from "../ImageWithStatus/ImageWithStatus";
 import { useAppDispatch, useAppSelector } from "../../api/hooks/redux";
 import { fetchUserProfile } from "../../store/redusers/ActionCreator";
-import { privateRoutes } from "../../routes";
-import { popupSlice } from "../../store/redusers/ShowHiePopup";
+import { privateRoutes, publicRoutes } from "../../routes";
+import { popupSlice } from "../../store/redusers/ShowHidePopupSlice";
 import PopupWrapper from "../PopupWrapper/PopupWrapper";
 import UserProfilePopup from "../UserProfilePopup/UserProfilePopup";
+import UseWindowSize from '../../Hooks/useWindowSize';
+import { toast } from 'react-toastify';
 
 
 function Header() {
+    const {error, isLoading} = useAppSelector(state => state.userProfileReducer)
     const {file_path, first_name, is_online, last_name} = useAppSelector(state => state.userProfileReducer.user)
     const dispatch = useAppDispatch();
+    const {width, height} = UseWindowSize();
+    const [isMobile, setIsMobile] = useState<boolean>(false);
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    useEffect(() => {
+        if (!isLoading && error) {
+            navigate(publicRoutes[0].path)
+        }
+    }, [error,isLoading])
+
+
+    const showPopup = () => {
+        dispatch(popupSlice.actions.showPopup())
+    }
 
     useEffect(() => {
         dispatch(fetchUserProfile())
     }, [])
 
-    const showPopup = () => {
-        dispatch(popupSlice.actions.showPopup(true))
-    }
+    useEffect(() => {
+        if (width !== 0 && width <= 900) {
+            setIsMobile(true)
+        } else {
+            setIsMobile(false)
+        }
+    }, [width, height])
 
     return (
         <header className={'header_main'}>
@@ -38,15 +60,15 @@ function Header() {
                 </div>
                 <nav className={'header__links'}>
                     {privateRoutes.map(({path, title}, index) => {
-                        return path !== '*' && (
+                        return path !== '*' && title && (
                             <NavLink
                                 key={index}
-                                to={path.includes('/network/*')?'/network/my':path}
+                                to={path.includes('/network/*') ? '/network/my' : path.includes('/chat') ? '/chat' : path}
                                 children={title}
                                 className={({isActive}) => {
-                                    return isActive ? 'active_link' : ''
+                                    return isActive || (path.includes('/chat') && location.pathname.includes('/chat')) ? 'active_link' : ''
                                 }}
-                            end/>
+                                end/>
                         )
                     })}
                 </nav>

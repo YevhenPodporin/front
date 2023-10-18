@@ -4,7 +4,7 @@ import { RequestStatus } from '../../Types/Network';
 import { NetworkApi, useFetchMyFriendsQuery } from '../../store/services/NetworkService';
 import { ListType, networkSlice } from '../../store/redusers/NetworkSlice';
 import Users from './Users';
-import { CircularProgress } from '@mui/material';
+import { useCreateChatMutation } from '../../store/services/ChatService';
 
 type props = {
     index: number,
@@ -18,7 +18,8 @@ function My({value, index}: props) {
 
     useEffect(() => {
         if (currentData && data && !isFetching) {
-            dispatch(networkSlice.actions.myFriendsFetchingSuccess(currentData.list))
+            dispatch(networkSlice.actions.usersFetchingSuccess({data: currentData.list, type: ListType.my}))
+
         }
     }, [isFetching, currentData])
 
@@ -33,7 +34,7 @@ function My({value, index}: props) {
         dispatch(networkSlice.actions.searchUsers({value, type: ListType.my}));
     }
 
-    const requestHandler = (): void => {
+    const requestHandler = (isCreateChat?:boolean): void => {
         dispatch(NetworkApi.util.resetApiState())
         dispatch(networkSlice.actions.clearState())
     }

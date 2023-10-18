@@ -4,12 +4,11 @@ import { objectToQueryString } from '../../helpers/objectToQueryString';
 import { toast } from 'react-toastify';
 import transformErrorResponse from '../../helpers/transformErrorResponse';
 
-//TODO make global error handler for base query and check 401 && jwt error if so force redirect to login
 
-export const NetworkApi = createApi({
-    reducerPath: 'getUsers',
+export const MessageApi = createApi({
+    reducerPath: 'getMessages',
     baseQuery: fetchBaseQuery({
-        baseUrl: `${process.env.REACT_APP_PUBLIC_URL}/network`,
+        baseUrl: `${process.env.REACT_APP_PUBLIC_URL}/chat`,
         prepareHeaders: (headers) => {
             headers.set('authorization', `Bearer ${localStorage.getItem('token')}`)
             return headers
@@ -21,7 +20,7 @@ export const NetworkApi = createApi({
         const baseBuild = build.query<UsersResponse, PaginationParams>({
             query: (arg) => {
                 return {
-                    url: `/get_users?${objectToQueryString(arg)}`,
+                    url: `/messages?${objectToQueryString(arg)}`,
                 }
             },
             serializeQueryArgs: ({endpointName}) => {
@@ -84,5 +83,5 @@ export const {
     useFetchMyFriendsQuery,
     useFetchRequestsQuery,
     useRequestToFriendMutation
-} = NetworkApi
+} = MessageApi
 

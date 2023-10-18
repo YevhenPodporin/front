@@ -6,17 +6,13 @@ import ArrowRightAltTwoToneIcon from '@mui/icons-material/ArrowRightAltTwoTone';
 import Box from '@mui/material/Box';
 
 
-function Chat() {
+function ChatById() {
     return (
         <div className={'chat_wrapper'}>
             <ChatList/>
-            <Box textAlign={'center'} fontWeight={'bold'} alignItems={'center'} display={'flex'}
-                 justifyContent={'center'}
-                 fontSize={24}>
-                <ArrowRightAltTwoToneIcon className={'arrow_to_left'}/> Choose the chat from list
-            </Box>
+            <ChatMain/>
         </div>
     );
 }
 
-export default Chat;
+export default ChatById;

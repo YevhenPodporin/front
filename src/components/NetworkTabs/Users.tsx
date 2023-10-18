@@ -56,8 +56,8 @@ function Users(props: TabPanelProps) {
                         }
                     >
                         {users.length &&
-                            <Grid id={'users_wrapper'} padding={'0 20px'} container spacing={{xs: 2, md: 5}}
-                                  columns={{xs: 2, sm: 8, md: 16}}>
+                            <Grid id={'users_wrapper'} padding={'0 20px'} container spacing={{xs: 2, md: 3}}
+                                  columns={{xs: 2, sm: 8, md: 20}}>
                                 {users.map((user, index) => (
                                     <UserCardItem
                                         key={index}

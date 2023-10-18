@@ -4,15 +4,16 @@ const EmptyAvatar = require("../../assets/images/empty-ava.png")
 
 type Image = {
     file_path?:string,
-    status?:boolean
+    status?:boolean,
+    withoutStatus?:boolean
 }
 
-function ImageWithStatus({file_path,status}:Image) {
+function ImageWithStatus({file_path,status, withoutStatus}:Image) {
     return (
         <div className={'image_wrapper'}>
             <img src={file_path || EmptyAvatar}/>
 
-            <span className={status?'online':'offline'}></span>
+            {!withoutStatus && <span className={status ? 'online' : 'offline'}></span>}
         </div>
     );
 }
