@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import './Header.scss';
 import { Toolbar } from "@mui/material";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
@@ -11,8 +11,8 @@ import { popupSlice } from "../../store/redusers/ShowHidePopupSlice";
 import PopupWrapper from "../PopupWrapper/PopupWrapper";
 import UserProfilePopup from "../UserProfilePopup/UserProfilePopup";
 import UseWindowSize from '../../Hooks/useWindowSize';
-import { toast } from 'react-toastify';
-
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { useAuth } from '../../api/hooks/useAuth';
 
 function Header() {
     const {error, isLoading} = useAppSelector(state => state.userProfileReducer)
@@ -22,12 +22,13 @@ function Header() {
     const [isMobile, setIsMobile] = useState<boolean>(false);
     const navigate = useNavigate();
     const location = useLocation();
+    const {signOut} = useAuth();
 
     useEffect(() => {
         if (!isLoading && error) {
             navigate(publicRoutes[0].path)
         }
-    }, [error,isLoading])
+    }, [error, isLoading])
 
 
     const showPopup = () => {
@@ -50,6 +51,7 @@ function Header() {
         <header className={'header_main'}>
             <PopupWrapper children={<UserProfilePopup/>}/>
             <Toolbar
+                className={'toolbar'}
                 component="nav"
                 variant="regular"
                 sx={{justifyContent: 'space-between', overflowX: 'auto'}}
@@ -71,8 +73,11 @@ function Header() {
                                 end/>
                         )
                     })}
+                    <button className={"signout_btn"} onClick={signOut}><ExitToAppIcon/></button>
                 </nav>
+
             </Toolbar>
+
         </header>
     )
 }

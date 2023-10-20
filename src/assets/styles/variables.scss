@@ -1,0 +1,7 @@
+ @mixin text_elipsis($max-width){
+  max-width:$max-width;
+  white-space: nowrap;
+  overflow: hidden;
+  max-lines: 1;
+  text-overflow:ellipsis;
+}

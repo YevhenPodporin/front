@@ -3,6 +3,7 @@ import {toast} from "react-toastify";
 import axios from "axios";
 import { useNavigate} from "react-router-dom";
 import { userSignInType, userSignUpType } from '../../Types/user';
+import { privateRoutes } from '../../routes';
 
 
 type errorObjectType = {
@@ -20,7 +21,7 @@ export const useAuth = () => {
             localStorage.setItem('token',response.accessToken )
             setUser(response);
             toast.success("Login Successfull");
-            navigate("/profile");
+            navigate(privateRoutes[0].path);
         } catch (err:any) {
             if(err.response.data.errors){
                 err.response.data.errors.forEach((error:errorObjectType)=>{
@@ -43,7 +44,7 @@ export const useAuth = () => {
             setUser(userObj);
             localStorage.setItem('token',authResult.data?.token )
             toast.success("Sign Up Successful");
-            navigate("/profile");
+            navigate(privateRoutes[0].path);
         } catch (err:any) {
             if(err.response.data.errors){
                 err.response.data.errors.forEach((error:errorObjectType)=>{

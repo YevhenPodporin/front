@@ -3,6 +3,7 @@ import { PaginationParams, RequestToFriendBody, UsersResponse } from '../../Type
 import { objectToQueryString } from '../../helpers/objectToQueryString';
 import { toast } from 'react-toastify';
 import transformErrorResponse from '../../helpers/transformErrorResponse';
+import { getMessages, MessagesResponse } from '../../Types/Chat';
 
 
 export const MessageApi = createApi({
@@ -17,71 +18,43 @@ export const MessageApi = createApi({
     tagTypes: ['Request', 'Search'],
     endpoints: (build) => {
 
-        const baseBuild = build.query<UsersResponse, PaginationParams>({
-            query: (arg) => {
-                return {
-                    url: `/messages?${objectToQueryString(arg)}`,
-                }
-            },
-            serializeQueryArgs: ({endpointName}) => {
-                return endpointName
-            },
-
-            merge: (currentCache, newItems) => {
-                if (newItems.list.length) {
-                    return {
-                        ...currentCache,
-                        ...newItems,
-                        list: [...currentCache.list, ...newItems.list]
-                    };
-                }
-                return currentCache;
-            },
-            forceRefetch({currentArg, previousArg}) {
-                return currentArg !== previousArg;
-            },
-
-            transformErrorResponse:transformErrorResponse,
-            providesTags: (result, error, arg) => {
-                const searchTag = arg.filter.search || 'no_search'; // Если параметр поиска не указан, используйте 'no_search' в качестве id
-                return ['Request',{ type: 'Search', id: searchTag }];
-            }
-
-        })
         return {
-            fetchAllUsers: baseBuild,
-            fetchRequests: baseBuild,
-            fetchMyFriends: baseBuild,
-
-            requestToFriend: build.mutation<{ errors: [] | null, message: '' }, RequestToFriendBody>({
-                query: (request) => {
+           getMessages: build.query<MessagesResponse, getMessages>({
+                query: (arg) => {
                     return {
-                        url: `/request`,
-                        method: 'POST',
-                        body: {...request},
+                        url: `/messages?${objectToQueryString(arg)}`,
                     }
                 },
-                invalidatesTags: (result) => {
-                    if (result && !result.errors) {
-                        toast.success(result.message)
-                    }
-                    return [{type:'Request', id:'Request'}]
+                serializeQueryArgs: ({endpointName}) => {
+                    return endpointName
                 },
-                transformErrorResponse(baseQueryReturnValue: any) {
-                    if (baseQueryReturnValue && baseQueryReturnValue.data.errors) {
-                        toast.error(baseQueryReturnValue.data.errors)
-                        return baseQueryReturnValue.data.errors
-                    }
+
+                // merge: (currentCache, newItems) => {
+                //     if (newItems.list.length) {
+                //         return {
+                //             ...currentCache,
+                //             ...newItems,
+                //             list: [...currentCache.list, ...newItems.list]
+                //         };
+                //     }
+                //     return currentCache;
+                // },
+                forceRefetch({currentArg, previousArg}) {
+                    return currentArg !== previousArg;
+                },
+
+                transformErrorResponse:transformErrorResponse,
+                providesTags: (result, error, arg) => {
+                    return ['Request',{ type: 'Search', id: arg.chat_id }];
                 }
+
             })
+
         }
     }
 })
 
 export const {
-    useFetchAllUsersQuery,
-    useFetchMyFriendsQuery,
-    useFetchRequestsQuery,
-    useRequestToFriendMutation
+    useGetMessagesQuery
 } = MessageApi
 

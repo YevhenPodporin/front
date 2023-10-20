@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import { InputAdornment } from '@mui/material';
 import Button from '@mui/material/Button';
@@ -7,30 +7,39 @@ import Box from '@mui/material/Box';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import Typography from '@mui/material/Typography';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import { useParams } from 'react-router-dom';
 
 export type clickHandlerProps = {
-    message:string,
+    message: string,
     file?: {
-        data:File,
-        fileName:string | undefined
+        data: File,
+        fileName: string | undefined
     }
 }
 export  type chatInputType = {
-    submitHandler: ({message, file}:clickHandlerProps) => void,
-    onInput: (e:React.FormEvent<HTMLDivElement>) => void
+    submitHandler: ({message, file}: clickHandlerProps) => void,
+    onInput: () => void
 }
 
 function ChatInput({submitHandler, onInput}: chatInputType) {
+    const {id} = useParams();
     const [message, setMessage] = useState('');
     const [file, setFile] = useState<File | null>(null);
     const [fileUrl, setFileUrl] = useState('');
     const [showSelectedFile, setShowSelectedFile] = useState(false);
 
+    useEffect(() => {
+        setMessage('');
+        setFile(null);
+        setFileUrl('');
+        setShowSelectedFile(false)
+    }, [id])
+
     const onSubmit = (e: FormEvent) => {
         e.preventDefault();
-        if(file){
-            submitHandler({message, file:{data:file,fileName:file?.name}});
-        }else{
+        if (file) {
+            submitHandler({message, file: {data: file, fileName: file?.name}});
+        } else {
             submitHandler({message});
 
         }
@@ -64,22 +73,34 @@ function ChatInput({submitHandler, onInput}: chatInputType) {
                     setFileUrl('')
                 }}/>
             </Box>}
-            <Box display={'flex'} borderRadius={10} className={'input_wrapper_flex'}><TextField
-                autoFocus={true}
-                className={'input'}
-                maxRows={4}
-                multiline={true}
-                label={null}
-                value={message}
-                onInput={(e)=>onInput(e)}
-                onChange={(e)=>setMessage(e.target.value)}
-                inputProps={{maxLength: 100}}
-                InputProps={{
-                    startAdornment: <InputAdornment position="start">Message:</InputAdornment>,
-                }}
-                variant="standard"
-            />
-                <Button component="label" variant="outlined" startIcon={<AttachFileIcon/>}>
+            <Box display={'flex'} borderRadius={10} className={'input_wrapper_flex'}>
+                <TextField
+                    autoFocus={true}
+                    className={'input'}
+                    maxRows={4}
+                    multiline={true}
+                    label={null}
+                    value={message}
+                    onChange={(e) => {
+                        if (e.target.value) {
+                            onInput()
+                        }
+                        setMessage(e.target.value)
+                    }}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                            e.preventDefault();
+                            onSubmit(e)
+                        }
+                    }}
+                    inputProps={{maxLength: 100}}
+                    InputProps={{
+                        startAdornment: <InputAdornment position="start">Message:</InputAdornment>,
+                    }}
+                    variant="standard"
+                />
+                <Button component="label" variant="outlined" style={{maxHeight: 'max-content'}}
+                        startIcon={<AttachFileIcon/>}>
                     <input onChange={fileSelect} type={'file'} hidden={true}/>
                 </Button>
                 <Button disabled={!message && !file} type={'submit'} children={<>Send <SendTwoToneIcon/></>}

@@ -30,4 +30,39 @@
     cursor: pointer;
     color: white;
   }
+  .toolbar{
+    overflow: hidden;
+  }
+  .header__links{
+    display: flex;
+    align-items: center;
+  }
+
+  .signout_btn{
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    &:hover{
+      svg path{
+        fill: #4cd964;
+      }
+      &:after{
+        content: 'Sign out';
+        position: absolute;
+        top: 30px;
+        right: 0;
+        width: 50px;
+        color: white;
+      }
+    }
+    svg:not(:hover){
+      path{
+        fill: white;
+      }
+    }
+  }
 }

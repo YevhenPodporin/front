@@ -5,6 +5,7 @@ import "react-toastify/scss/main.scss"
 import AppRouter from "./AppRouter";
 
 function App() {
+
     return (
         <>
             <ToastContainer position={"bottom-center"}/>
