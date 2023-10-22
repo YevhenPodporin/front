@@ -9,7 +9,7 @@ function Chat() {
         <div className={'chat_wrapper'}>
             <ChatList/>
             <Box textAlign={'center'} fontWeight={'bold'} alignItems={'center'} display={'flex'}
-                 justifyContent={'center'}
+                 justifyContent={'center'} flex={'1 1 auto'}
                  fontSize={24}>
                 <ArrowRightAltTwoToneIcon className={'arrow_to_left'}/> Choose the chat from list
             </Box>

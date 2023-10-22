@@ -8,6 +8,8 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 import Typography from '@mui/material/Typography';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { useParams } from 'react-router-dom';
+import useRecordAudio from '../../api/hooks/useRecordAudio';
+import KeyboardVoiceIcon from '@mui/icons-material/KeyboardVoice';
 
 export type clickHandlerProps = {
     message: string,
@@ -27,6 +29,7 @@ function ChatInput({submitHandler, onInput}: chatInputType) {
     const [file, setFile] = useState<File | null>(null);
     const [fileUrl, setFileUrl] = useState('');
     const [showSelectedFile, setShowSelectedFile] = useState(false);
+    const {result, stopRecording, isRecording, startRecording, clearState} = useRecordAudio();
 
     useEffect(() => {
         setMessage('');
@@ -37,15 +40,18 @@ function ChatInput({submitHandler, onInput}: chatInputType) {
 
     const onSubmit = (e: FormEvent) => {
         e.preventDefault();
-        if (file) {
-            submitHandler({message, file: {data: file, fileName: file?.name}});
-        } else {
-            submitHandler({message});
-
-        }
-        setMessage('');
-        setFile(null);
-        setFileUrl('');
+        console.log(result)
+        return;
+        // if (!message || !file) return;
+        // if (file) {
+        //     submitHandler({message, file: {data: file, fileName: file?.name}});
+        // } else {
+        //     submitHandler({message});
+        //
+        // }
+        // setMessage('');
+        // setFile(null);
+        // setFileUrl('');
     }
 
     const fileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,6 +79,16 @@ function ChatInput({submitHandler, onInput}: chatInputType) {
                     setFileUrl('')
                 }}/>
             </Box>}
+            {result &&
+                <Box className={'file_name'}
+                >
+                    <audio controls src={URL.createObjectURL(result)}/>
+                    <DeleteOutlineOutlinedIcon onClick={(e) => {
+                        e.stopPropagation();
+                        clearState()
+                    }}/>
+                </Box>
+                }
             <Box display={'flex'} borderRadius={10} className={'input_wrapper_flex'}>
                 <TextField
                     autoFocus={true}
@@ -99,12 +115,29 @@ function ChatInput({submitHandler, onInput}: chatInputType) {
                     }}
                     variant="standard"
                 />
-                <Button component="label" variant="outlined" style={{maxHeight: 'max-content'}}
-                        startIcon={<AttachFileIcon/>}>
+                {!result && <Button component="label" variant="outlined" style={{maxHeight: 'max-content'}}
+                         startIcon={<AttachFileIcon/>}>
                     <input onChange={fileSelect} type={'file'} hidden={true}/>
+                </Button>}
+
+                <Button
+                    onMouseDown={(e)=>{
+                        e.stopPropagation();
+                        if(message || file || result )return
+                        startRecording();
+                    }}
+                    onMouseUp={(e)=>{
+                        e.stopPropagation();
+                        if(message || file || result )return
+                        stopRecording();
+                    }}
+                    type={'submit'}
+                    variant={'outlined'}
+                    className={!message && isRecording?"recording__voice":'message'}
+                >
+                    {message || file || result ? <SendTwoToneIcon/> : <KeyboardVoiceIcon/>}
                 </Button>
-                <Button disabled={!message && !file} type={'submit'} children={<>Send <SendTwoToneIcon/></>}
-                        variant={'outlined'}/>
+
             </Box>
         </Box>
     );

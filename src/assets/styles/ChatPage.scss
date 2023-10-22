@@ -85,6 +85,7 @@
         width: max-content;
         display: flex;
         cursor: pointer;
+        align-items: center;
 
         &:not(:hover) svg {
           visibility: hidden;
@@ -112,6 +113,10 @@
         span {
           margin: 0;
         }
+      }
+
+      .recording__voice{
+
       }
     }
   }
@@ -222,14 +227,12 @@
       color: green;
       justify-content: flex-end;
       max-width: 90vw;
-      text-align: right;
       .item {
         background: aquamarine;
       }
     }
 
     &.not_my {
-      text-align: left;
       color: red;
       justify-content: flex-start;
       max-width: 90vw;
@@ -239,6 +242,7 @@
     }
 
     .item {
+      text-align: left;
       gap: 10px;
       border-radius: 10px;
       flex: 0 1 45%;
@@ -250,6 +254,16 @@
       .time{
         align-self: flex-end;
         color: #616161;
+      }
+      .image{
+        width: 100%;
+        display: flex;
+        a{
+          display: inline-block;
+        }
+        img{
+          width: 30%;
+        }
       }
     }
   }

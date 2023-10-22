@@ -13,11 +13,8 @@ export type chatListItem = {
     created_at: string
     to_user: { profile: UserProfile }
     from_user: { profile: UserProfile }
-    messages: { message: string }[]
-    notifications: {
-        to_user_id: number,
-        unread_messages: number
-    }[]
+    last_message: string
+    unread_messages:number
 }
 
 export type sendMessageType = {
@@ -47,4 +44,12 @@ export type messageListItem = {
     file: string | null
     sender_id: number
     updated_at: string
+}
+
+export type Notifications = {
+    id: number
+    to_chat_id: number
+    to_user_id: number
+    unread_messages: number,
+    message:string
 }

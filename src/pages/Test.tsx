@@ -1,28 +1,31 @@
-import { FormEvent, useEffect, useState } from 'react';
-import { io, Socket, } from 'socket.io-client';
-import { useAppSelector } from '../api/hooks/redux';
+
+import { ReactMediaRecorder } from "react-media-recorder";
+
 
 export default function TestPage() {
 
-    useEffect(() => {
-        const token = localStorage.getItem('token')
-        const newSocket = io(process.env.REACT_APP_SOCKET_URL || 'http://localhost:4000',
-            {
-                autoConnect: false,
-                auth: {token}
-            },
-        );
-
-        newSocket.connect();
-
-
-        newSocket.emit('joinRoom', {id:'OLEG'});
-    }, [])
 
     return (
         <div className="test-page">
+            <div>
+                <ReactMediaRecorder
+                    audio={true}
+                    video={false}
+                    onStop={(blobUrl, blob)=>{
+                        console.log(blob)
+                    }}
 
-
+                    render={({ status, startRecording, stopRecording, mediaBlobUrl }) => (
+                        <div>
+                            <p>{status}</p>
+                            <button onClick={startRecording}>Start Recording</button>
+                            <button onClick={stopRecording}>Stop Recording</button>
+                            <audio src={mediaBlobUrl} controls autoPlay />
+                        <a download href={mediaBlobUrl}>DOWNLOAD</a>
+                        </div>
+                    )}
+                />
+            </div>
         </div>
     )
 };

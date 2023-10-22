@@ -5,11 +5,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { useAppDispatch, useAppSelector } from '../api/hooks/redux';
 import { Direction, OrderBy, PaginationParams } from '../Types/Network';
-import { messageListItem, MessagesResponse } from '../Types/Chat';
+import { messageListItem, MessagesResponse, Notifications } from '../Types/Chat';
 import Box from '@mui/material/Box';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import ChatInput, { clickHandlerProps } from '../components/ChatPage/ChatInput';
 import MessagesList from '../components/ChatPage/MessagesList';
+import { chatSlice } from '../store/redusers/ChatSlice';
 
 interface MessagesState {
     data: messageListItem[] | [],
@@ -66,7 +67,6 @@ function ChatById() {
         if (socket) {
             socket.emit('joinRoom', {id: chatId});
 
-
             socket.on('receive-message', (data: messageListItem) => {
                 setCurrentMessages(prev => (
                     {...prev, data: [data, ...prev.data]}
@@ -81,8 +81,8 @@ function ChatById() {
                 setUserTyping('')
             });
 
-            socket.on('notification', (message: string) => {
-                alert(message)
+            socket.on('notification', (data: Notifications) => {
+                dispatch(chatSlice.actions.editNotification(data))
             })
 
             socket.emit('getMessages', {

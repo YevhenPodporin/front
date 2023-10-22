@@ -30,6 +30,7 @@ function Login() {
         await signIn(formData);
     }
 
+
     return (
         <ThemeProvider theme={defaultTheme}>
             <Grid container component="main" sx={{height: '100vh'}}>
@@ -92,13 +93,16 @@ function Login() {
                             >
                                 Sign In
                             </Button>
-                            <Grid container>
+                            <Grid container >
                                 <Grid item>
                                     <Link to="/register">
                                         {"Don't have an account? Sign Up"}
                                     </Link>
                                 </Grid>
                             </Grid>
+                            <Link
+                                className={'fa fa-google'}
+                                to={'http://localhost:4000/auth/google'}>Sign in with google</Link>
                         </Box>
                     </Box>
                 </Grid>

@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { privateRoutes, publicRoutes } from "./routes";
 
 import Login from "./pages/Login";
@@ -22,7 +22,7 @@ function AppRouter() {
                 <Route key={index} path={path} element={<Component/>} index={true}/>
             )
         })}
-        <Route path="*" element={<Login/>} index={false}/>
+        <Route path="*" element={<Navigate to={'/login'}/>} index={false}/>
     </Routes>
 }
 

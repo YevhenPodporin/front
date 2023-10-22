@@ -38,8 +38,8 @@ function ChatList() {
                                                                     to_user_id,
                                                                     from_user,
                                                                     to_user,
-                                                                    messages,
-                                                                    notifications
+                                                                    last_message,
+                                                                    unread_messages
                                                                 }) => {
 
                     return (
@@ -54,11 +54,12 @@ function ChatList() {
                             <Avatar src={from_user.profile.file_path}/>
                             <div className={'name_message'}>
                                 {myProfile.id === from_user_id ? to_user.profile.first_name : from_user.profile.first_name}
-                                <Typography className={'last_message'} children={messages.length ? messages[0]?.message : ''}/>
+                                <Typography className={'last_message'}
+                                            children={last_message}/>
                             </div>
-                            {notifications.length
-                                ? <Badge badgeContent={notifications[0].unread_messages} color={'secondary'} max={10}/>
-                                :null}
+                            {unread_messages > 0
+                                ? <Badge badgeContent={unread_messages} color={'secondary'} max={10}/>
+                                : null}
                         </ListItem>
                     )
                 })}
