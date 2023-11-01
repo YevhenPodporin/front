@@ -5,13 +5,13 @@ import ImageWithStatus from "../ImageWithStatus/ImageWithStatus";
 import { useEditProfileMutation } from '../../store/services/userProfileService';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import { Input } from '@mui/material';
+
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import moment from 'moment/moment';
-import { userEditProfile, userSignUpType } from '../../Types/user';
+import { userEditProfile } from '../../Types/user';
 import { popupSlice } from "../../store/redusers/ShowHidePopupSlice";
 import { userSlice } from '../../store/redusers/UserProfileSlice';
 
@@ -20,6 +20,7 @@ function UserProfilePopup() {
     const {file_path, first_name, is_online, last_name, date_of_birth, email} = user;
     const [fileUrl, setFileUrl] = useState('');
     const dispatch = useAppDispatch();
+
     const [dataToSend, setDataToSend] = useState<userEditProfile>({
         first_name,
         last_name,
@@ -82,7 +83,7 @@ function UserProfilePopup() {
                 onSubmit={handleSubmit}
                 sx={{mt: 2}}>
                 <Grid container spacing={2}>
-                    <Grid item xs={12} sm={12} style={{display:'flex',justifyContent:'center'}}>
+                    <Grid item xs={12} sm={12} style={{display: 'flex', justifyContent: 'center'}}>
                         <div className={'avatar_wrapper'}>
                             <ImageWithStatus status={is_online} file_path={fileUrl || file_path} withoutStatus={true}/>
                             <label htmlFor={'avatar'}>Edit</label>
@@ -125,7 +126,8 @@ function UserProfilePopup() {
                                 views={["day", "month", "year"]}
                                 format="YYYY-MM-DD"
                                 label={"Date of birthday"}
-                                className={'date-picker'}/>
+                                className={'date-picker'}
+                            />
                         </LocalizationProvider>
                     </Grid>
                     <Grid item xs={12}>

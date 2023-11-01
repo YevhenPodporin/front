@@ -26,11 +26,7 @@ export const privateRoutes = [
         path: '/test',
         Component: TestPage
     },
-    {
-        title: 'Not found',
-        path: '*',
-        Component:NotFoundPage
-    }
+
 ]
 
 export const publicRoutes = [

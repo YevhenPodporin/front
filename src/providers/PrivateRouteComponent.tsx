@@ -10,7 +10,7 @@ interface PrivateRouteProps {
 }
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({element}) => {
-    const isAuth = !!localStorage.getItem('token');
+    const isAuth = !!localStorage.getItem('token') || !!localStorage.getItem('google_token');
     const loading = useAppSelector(s=>s.userProfileReducer.isLoading)
 
     useEffect(() => {

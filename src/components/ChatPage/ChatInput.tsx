@@ -14,7 +14,7 @@ import KeyboardVoiceIcon from '@mui/icons-material/KeyboardVoice';
 export type clickHandlerProps = {
     message: string,
     file?: {
-        data: File,
+        data: File | Blob,
         fileName: string | undefined
     }
 }
@@ -40,18 +40,31 @@ function ChatInput({submitHandler, onInput}: chatInputType) {
 
     const onSubmit = (e: FormEvent) => {
         e.preventDefault();
-        console.log(result)
-        return;
-        // if (!message || !file) return;
-        // if (file) {
-        //     submitHandler({message, file: {data: file, fileName: file?.name}});
-        // } else {
-        //     submitHandler({message});
-        //
-        // }
-        // setMessage('');
-        // setFile(null);
-        // setFileUrl('');
+
+        if (!message && !file && !result) return;
+        if (file || result) {
+            if(file){
+                submitHandler({
+                    message, file: {
+                        data:file,
+                        fileName: file?.name || 'voice-record'
+                    }
+                });
+            }else if(result){
+                submitHandler({
+                    message, file: {
+                        data:result,
+                        fileName: String(Math.floor(Math.random() * 1000000))
+                    }
+                });
+            }
+
+        } else {
+            submitHandler({message});
+        }
+        setMessage('');
+        setFile(null);
+        setFileUrl('');
     }
 
     const fileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,7 +101,7 @@ function ChatInput({submitHandler, onInput}: chatInputType) {
                         clearState()
                     }}/>
                 </Box>
-                }
+            }
             <Box display={'flex'} borderRadius={10} className={'input_wrapper_flex'}>
                 <TextField
                     autoFocus={true}
@@ -116,24 +129,24 @@ function ChatInput({submitHandler, onInput}: chatInputType) {
                     variant="standard"
                 />
                 {!result && <Button component="label" variant="outlined" style={{maxHeight: 'max-content'}}
-                         startIcon={<AttachFileIcon/>}>
+                                    startIcon={<AttachFileIcon/>}>
                     <input onChange={fileSelect} type={'file'} hidden={true}/>
                 </Button>}
 
                 <Button
-                    onMouseDown={(e)=>{
+                    onMouseDown={(e) => {
                         e.stopPropagation();
-                        if(message || file || result )return
+                        if (message || file || result) return
                         startRecording();
                     }}
-                    onMouseUp={(e)=>{
+                    onMouseUp={(e) => {
                         e.stopPropagation();
-                        if(message || file || result )return
+                        if (message || file || result) return
                         stopRecording();
                     }}
                     type={'submit'}
                     variant={'outlined'}
-                    className={!message && isRecording?"recording__voice":'message'}
+                    className={!message && isRecording ? "recording__voice" : 'message'}
                 >
                     {message || file || result ? <SendTwoToneIcon/> : <KeyboardVoiceIcon/>}
                 </Button>

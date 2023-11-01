@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -8,14 +8,19 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useAuth } from "../api/hooks/useAuth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { userSignInType } from '../Types/user';
+import { googleLogout, useGoogleLogin, Context, GoogleLogin } from '@react-oauth/google';
+import axios, { AxiosResponse } from 'axios';
+import { toast } from 'react-toastify';
+import { privateRoutes } from '../routes';
 
 
 const defaultTheme = createTheme();
 
 function Login() {
     const {signIn} = useAuth();
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState<userSignInType>({
         email: '',
@@ -30,6 +35,23 @@ function Login() {
         await signIn(formData);
     }
 
+
+    const auth = (token: string) => {
+        axios.post(process.env.REACT_APP_PUBLIC_URL + '/auth/google', {
+            token
+        }, {
+            headers: {
+                Accept: 'application/json'
+            }
+        }).then(({data}: any) => {
+
+            localStorage.setItem('token', data.accessToken);
+            navigate(privateRoutes[0].path);
+
+        }).catch(e => {
+            toast.error(e.message)
+        })
+    }
 
     return (
         <ThemeProvider theme={defaultTheme}>
@@ -93,16 +115,27 @@ function Login() {
                             >
                                 Sign In
                             </Button>
-                            <Grid container >
+                            <Grid container>
                                 <Grid item>
                                     <Link to="/register">
                                         {"Don't have an account? Sign Up"}
                                     </Link>
                                 </Grid>
                             </Grid>
-                            <Link
-                                className={'fa fa-google'}
-                                to={'http://localhost:4000/auth/google'}>Sign in with google</Link>
+
+                            {/*<button type={'button'} onClick={() => login()}>Sign in with Google 🚀</button>*/}
+                            <GoogleLogin
+
+                                theme={'outline'}
+                                onSuccess={credentialResponse => {
+                                    if (credentialResponse.credential) {
+                                        auth(credentialResponse.credential)
+                                    }
+                                }}
+                                onError={() => {
+                                    toast.error('Login error')
+                                }}
+                            />
                         </Box>
                     </Box>
                 </Grid>

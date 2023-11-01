@@ -28,7 +28,9 @@ function MessagesList({list}: { list: messageListItem[] }) {
                         <div className={"item"}>
                             <div>
                                 {data.file && <div className={'image'}>
-                                    <img src={data.file}/>
+                                    {fileName && fileName.includes('webm')
+                                        ? <audio controls src={data.file.split(';')[0]}/>
+                                        : <img src={data.file}/>}
                                     <a href={data.file}>Save file: {fileName}</a>
                                 </div>}
                                 <div>{data.message}</div>

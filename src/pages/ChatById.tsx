@@ -101,6 +101,7 @@ function ChatById() {
     const sendMessage = async ({message, file}: clickHandlerProps) => {
         if (!socket) return;
         const reader = new FileReader();
+        console.log(message,file)
         if (file) {
             reader.readAsDataURL(file.data)
             reader.onloadend = () => {
