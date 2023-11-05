@@ -22,6 +22,17 @@ export const chatSlice = createSlice({
         setChatList: (state, action: PayloadAction<chatListItem[]>) => {
             state.data = action.payload
         },
+        removeUnreadMessage:(state, action:PayloadAction<number>)=>{
+            state.data = state.data.map(chat=>{
+                if(chat.id === action.payload){
+                    return {
+                        ...chat,
+                        unread_messages:0}
+                }else{
+                    return chat
+                }
+            })
+        },
         editNotification:(state,action:PayloadAction<Notifications>)=>{
             state.data = state.data.map(chat=>{
                 if(chat.id === action.payload.to_chat_id){

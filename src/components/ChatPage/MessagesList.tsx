@@ -4,12 +4,18 @@ import { messageListItem } from '../../Types/Chat';
 
 
 function MessagesList({list}: { list: messageListItem[] }) {
-    const lastMessageRef = useRef(null)
+    const lastMessageRef = useRef<HTMLDivElement>(null)
     const {id} = useAppSelector(state => state.userProfileReducer.user);
 
     useEffect(() => {
-        console.log(lastMessageRef)
-    }, [lastMessageRef])
+        // if(lastMessageRef.current){
+        //     lastMessageRef.current.scrollIntoView({
+        //         behavior: "smooth",
+        //         block: "center",
+        //         inline: "start"
+        //     })
+        // }
+    }, [lastMessageRef, list])
 
     return (
         <>
@@ -30,7 +36,7 @@ function MessagesList({list}: { list: messageListItem[] }) {
                                 {data.file && <div className={'image'}>
                                     {fileName && fileName.includes('webm')
                                         ? <audio controls src={data.file.split(';')[0]}/>
-                                        : <img src={data.file}/>}
+                                        : <img src={data.file} alt={'image'}/>}
                                     <a href={data.file}>Save file: {fileName}</a>
                                 </div>}
                                 <div>{data.message}</div>

@@ -1,7 +1,7 @@
 import ChatList from '../components/ChatPage/ChatList';
 import '../assets/styles/ChatPage.scss'
 import { useParams } from 'react-router-dom';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { useAppDispatch, useAppSelector } from '../api/hooks/redux';
 import { Direction, OrderBy, PaginationParams } from '../Types/Network';
@@ -39,8 +39,7 @@ function ChatById() {
     const dispatch = useAppDispatch();
     const [currentMessages, setCurrentMessages] = useState<MessagesState>(initialState);
     const [userTyping, setUserTyping] = useState('');
-    const {first_name, id} = useAppSelector(state => state.userProfileReducer.user);
-    const lastMessageRef = useRef(null)
+    const {first_name} = useAppSelector(state => state.userProfileReducer.user);
 
     useEffect(() => {
         const newSocket = io(process.env.REACT_APP_SOCKET_URL || 'http://localhost:4000',
@@ -89,11 +88,15 @@ function ChatById() {
                 chat_id: Number(chatId),
                 pagination: initialState.pagination
             }, (response: MessagesResponse) => {
-                setCurrentMessages(prev => ({
+
+                setCurrentMessages(() => ({
                     data: response.list,
                     count: response.count,
                     pagination: initialState.pagination
                 }))
+                if(initialState.pagination.skip === 0){
+                    dispatch(chatSlice.actions.removeUnreadMessage(Number(chatId)))
+                }
             })
         }
     }, [socket])
@@ -101,7 +104,6 @@ function ChatById() {
     const sendMessage = async ({message, file}: clickHandlerProps) => {
         if (!socket) return;
         const reader = new FileReader();
-        console.log(message,file)
         if (file) {
             reader.readAsDataURL(file.data)
             reader.onloadend = () => {

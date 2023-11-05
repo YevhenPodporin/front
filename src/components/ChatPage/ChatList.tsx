@@ -5,8 +5,6 @@ import { chatSlice } from '../../store/redusers/ChatSlice';
 import { useAppDispatch, useAppSelector } from '../../api/hooks/redux';
 import { useGetChatListQuery } from '../../store/services/ChatService';
 import Typography from '@mui/material/Typography';
-import { Circle } from '@mui/icons-material';
-import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
 
 
 function ChatList() {
@@ -25,7 +23,6 @@ function ChatList() {
             dispatch(chatSlice.actions.setChatList(data))
         }
     }, [isLoading])
-    console.log(chatList)
     return (
         <div className={isShow ? 'chat_list_wrapper' : 'chat_list_wrapper hide'}>
             {isLoading && <CircularProgress sx={{position: 'fixed', top: '50%', left: '50%'}}/>}
@@ -35,7 +32,6 @@ function ChatList() {
                 {chatList.length && !isLoading && chatList.map(({
                                                                     id,
                                                                     from_user_id,
-                                                                    to_user_id,
                                                                     from_user,
                                                                     to_user,
                                                                     last_message,
@@ -51,7 +47,7 @@ function ChatList() {
                             }}
                             className={(params.id && +params.id === +id) ? 'active' : 'item'}
                         >
-                            <Avatar src={from_user.profile.file_path}/>
+                            <Avatar src={myProfile.id === from_user_id ?to_user.profile.file_path: from_user.profile.file_path}/>
                             <div className={'name_message'}>
                                 {myProfile.id === from_user_id ? to_user.profile.first_name : from_user.profile.first_name}
                                 <Typography className={'last_message'}

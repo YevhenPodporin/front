@@ -14,7 +14,6 @@ type errorObjectType = {
 export const useAuth = () => {
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
-
     const signIn = async (data:userSignInType) => {
         try {
             const response = await axios.post(`${process.env.REACT_APP_PUBLIC_URL}/login`, data).then(res=>res.data)
@@ -64,6 +63,7 @@ export const useAuth = () => {
             }).then(()=>{
                  localStorage.removeItem('token')
                  navigate('/login');
+                 navigate(0);
                  setUser(null);
              }).catch(()=>{
                  toast.error("An Error Occuered")

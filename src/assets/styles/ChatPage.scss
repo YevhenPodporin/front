@@ -12,7 +12,7 @@
     padding-top: 0;
     position: relative;
     overflow: hidden;
-    width: 250px;
+    flex: 0 0 250px;
     &.hide {
 
     }
@@ -54,7 +54,7 @@
 
     .input_wrapper {
       flex: 0 1 30%;
-      box-shadow: 10px 0 20px 0px rgba(0, 0, 0, 0.5);
+      box-shadow: 10px 0 20px 0 rgba(0, 0, 0, 0.5);
       padding: 10px;
       position: relative;
 
@@ -146,7 +146,7 @@
       align-items: center;
       justify-content: center;
       width: max-content;
-      margin: 0px 8px;
+      margin: 0 8px;
     }
 
     .typingIndicatorBubbleDot {
@@ -162,7 +162,7 @@
     }
 
     .typingIndicatorBubbleDot:first-of-type {
-      margin: 0px 4px;
+      margin: 0 4px;
     }
 
     .typingIndicatorBubbleDot:nth-of-type(2) {
