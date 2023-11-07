@@ -2,7 +2,7 @@ import { createRef, JSX, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from "../../api/hooks/redux";
 import { popupSlice } from "../../store/redusers/ShowHidePopupSlice";
 import './PopupWrapper.scss';
-import UseOutsideClick from '../../Hooks/useOusideClick';
+import UseOutsideClick from '../../Hooks/useOutsideClick';
 
 type Props = {
     children: JSX.Element | JSX.Element[]

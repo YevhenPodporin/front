@@ -29,7 +29,7 @@ function ChatInput({submitHandler, onInput}: chatInputType) {
     const [file, setFile] = useState<File | null>(null);
     const [fileUrl, setFileUrl] = useState('');
     const [showSelectedFile, setShowSelectedFile] = useState(false);
-    const {result, stopRecording, isRecording, startRecording, clearState} = useRecordAudio();
+    const {result, stopRecording, isRecording, recordingTime, startRecording, clearState} = useRecordAudio();
 
     useEffect(() => {
         setMessage('');
@@ -65,6 +65,7 @@ function ChatInput({submitHandler, onInput}: chatInputType) {
         setMessage('');
         setFile(null);
         setFileUrl('');
+        clearState();
     }
 
     const fileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,6 +103,7 @@ function ChatInput({submitHandler, onInput}: chatInputType) {
                     }}/>
                 </Box>
             }
+            {isRecording &&  <span>Record: {recordingTime} sec.</span>}
             <Box display={'flex'} borderRadius={10} className={'input_wrapper_flex'}>
                 <TextField
                     autoFocus={true}

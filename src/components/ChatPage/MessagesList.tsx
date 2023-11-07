@@ -1,11 +1,19 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useAppSelector } from '../../api/hooks/redux';
 import { messageListItem } from '../../Types/Chat';
+import useOusideClick from '../../Hooks/useOutsideClick';
+import { Menu, MenuItem, MenuList } from '@mui/material';
 
 
 function MessagesList({list}: { list: messageListItem[] }) {
     const lastMessageRef = useRef<HTMLDivElement>(null)
     const {id} = useAppSelector(state => state.userProfileReducer.user);
+    const [isOpenContextMenu, setIsOpenContextMenu] = useState<number | boolean>(false);
+
+    const hideContextMenu = (res: boolean) => {
+        setIsOpenContextMenu(res);
+    }
+    const current = useOusideClick(Boolean(isOpenContextMenu), hideContextMenu)
 
     useEffect(() => {
         // if(lastMessageRef.current){
@@ -28,7 +36,10 @@ function MessagesList({list}: { list: messageListItem[] }) {
                     <div
                         key={data.id}
                         ref={isLastMessage ? lastMessageRef : undefined}
-
+                        onContextMenu={(e) => {
+                            e.preventDefault();
+                            setIsOpenContextMenu(data.id)
+                        }}
                         className={isMyMessage ? "message__item my_message" : "message__item not_my"}
                     >
                         <div className={"item"}>
@@ -37,7 +48,8 @@ function MessagesList({list}: { list: messageListItem[] }) {
                                     {fileName && fileName.includes('webm')
                                         ? <audio controls src={data.file.split(';')[0]}/>
                                         : <img src={data.file} alt={'image'}/>}
-                                    <a href={data.file}>Save file: {fileName}</a>
+                                    {fileName && !fileName.includes('webm') &&
+                                        <a href={data.file}>Save file: {fileName}</a>}
                                 </div>}
                                 <div>{data.message}</div>
                             </div>
@@ -45,6 +57,12 @@ function MessagesList({list}: { list: messageListItem[] }) {
                                 className={'time'}>{new Date(data.created_at).toLocaleTimeString().slice(0, 5)}
                             </span>
                         </div>
+
+                        {isOpenContextMenu === data.id && <MenuList
+                            ref={current}
+                            className={'context_menu_wrapper'}>
+                            <MenuItem children={'OLEG'}/>
+                        </MenuList>}
                     </div>
                 )
             })}

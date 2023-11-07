@@ -4,7 +4,7 @@ export default function useRecordAudio() {
     const [isRecording, setIsRecording] = useState(false);
     const [stream, setStream] = useState<MediaStream | null>(null);
     const [timerInterval, setTimerInterval] = useState<NodeJS.Timeout | null>(null);
-    const [transcriptLength, setTranscriptLength] = useState(0);
+    const [recordingTime, setRecordingTime] = useState(0);
     const [result, setResult] = useState<Blob | null>(null);
     const [recordedChunks, setRecordedChunks] = useState<Blob[]>([]);
     const [newRecorder, setNewRecorder] = useState<MediaRecorder | null>(null);
@@ -13,13 +13,12 @@ export default function useRecordAudio() {
         setIsRecording(false);
         setRecordedChunks([]);
         setResult(null);
-        setTranscriptLength(0);
+        setRecordingTime(0);
         setTimerInterval(null);
         setStream(null)
     }
 
     const startRecording = async () => {
-
         try {
             const audioStream = await navigator.mediaDevices.getUserMedia({audio: true});
             const speakerStream = await (navigator as any).mediaDevices.getUserMedia({
@@ -48,12 +47,12 @@ export default function useRecordAudio() {
 
             setTimerInterval(
                 setInterval(() => {
-                    if(transcriptLength > 3){
+                    if(recordingTime > 3){
                         setTimerInterval(null);
                         stopRecording();
                         return;
                     }
-                    setTranscriptLength((t) => t + 1);
+                    setRecordingTime((t) => t + 1);
                 }, 1000)
             );
 
@@ -74,10 +73,12 @@ export default function useRecordAudio() {
     };
 
     const stopRecording = () => {
-        if (transcriptLength <= 1) {
+        if (recordingTime <= 1) {
             clearState()
             return;
         }
+
+        newRecorder?.stop();
         if (stream) {
             stream.getTracks().forEach((track) => track.stop());
         }
@@ -98,6 +99,7 @@ export default function useRecordAudio() {
         startRecording,
         stopRecording,
         result,
+        recordingTime,
         clearState
     }
 };

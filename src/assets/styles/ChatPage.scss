@@ -223,6 +223,11 @@
 }
   .message__item {
     display: flex;
+    position: relative;
+
+    .context_menu_wrapper{
+      position: absolute;
+    }
     &.my_message {
       color: green;
       justify-content: flex-end;
@@ -259,7 +264,10 @@
         width: 100%;
         display: flex;
         a{
-          display: inline-block;
+          &:hover{
+            color: white;
+            backdrop-filter: none;
+          }
         }
         img{
           width: 30%;
