@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useAppSelector } from '../../api/hooks/redux';
 import { messageListItem } from '../../Types/Chat';
-import useOusideClick from '../../Hooks/useOutsideClick';
-import { Menu, MenuItem, MenuList } from '@mui/material';
+import UseOutsideClick from '../../Hooks/useOutsideClick';
+import { MenuItem, MenuList } from '@mui/material';
 
 
 function MessagesList({list}: { list: messageListItem[] }) {
@@ -13,7 +13,7 @@ function MessagesList({list}: { list: messageListItem[] }) {
     const hideContextMenu = (res: boolean) => {
         setIsOpenContextMenu(res);
     }
-    const current = useOusideClick(Boolean(isOpenContextMenu), hideContextMenu)
+    const current = UseOutsideClick(Boolean(isOpenContextMenu), hideContextMenu)
 
     useEffect(() => {
         // if(lastMessageRef.current){

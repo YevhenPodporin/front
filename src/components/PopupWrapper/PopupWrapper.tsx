@@ -1,4 +1,4 @@
-import { createRef, JSX, useEffect, useState } from 'react';
+import { JSX, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from "../../api/hooks/redux";
 import { popupSlice } from "../../store/redusers/ShowHidePopupSlice";
 import './PopupWrapper.scss';

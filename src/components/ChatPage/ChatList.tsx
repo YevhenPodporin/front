@@ -29,7 +29,7 @@ function ChatList() {
             {/*<div className={'arrow_icon'} onClick={()=>setIsShow(false)}>{<ArrowBackIosNewTwoToneIcon/>}</div>*/}
 
             <List className={'chat_list_items'}>
-                {chatList.length && !isLoading && chatList.map(({
+                {chatList.length && !isLoading ? chatList.map(({
                                                                     id,
                                                                     from_user_id,
                                                                     from_user,
@@ -58,7 +58,7 @@ function ChatList() {
                                 : null}
                         </ListItem>
                     )
-                })}
+                }):<p>Chat list is empty</p>}
                 {error && <h4>Something wrong</h4>}
             </List>
         </div>
