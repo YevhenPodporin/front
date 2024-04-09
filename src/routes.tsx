@@ -2,7 +2,6 @@ import Login from "./pages/Login";
 import Chat from "./pages/Chat";
 import Network from "./pages/Network";
 import Register from "./pages/Register";
-import NotFoundPage from './pages/_404';
 import TestPage from './pages/Test';
 import ChatById from './pages/ChatById';
 

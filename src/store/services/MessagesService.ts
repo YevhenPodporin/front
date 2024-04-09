@@ -1,7 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
-import { PaginationParams, RequestToFriendBody, UsersResponse } from '../../Types/Network';
 import { objectToQueryString } from '../../helpers/objectToQueryString';
-import { toast } from 'react-toastify';
 import transformErrorResponse from '../../helpers/transformErrorResponse';
 import { getMessages, MessagesResponse } from '../../Types/Chat';
 
@@ -29,16 +27,6 @@ export const MessageApi = createApi({
                     return endpointName
                 },
 
-                // merge: (currentCache, newItems) => {
-                //     if (newItems.list.length) {
-                //         return {
-                //             ...currentCache,
-                //             ...newItems,
-                //             list: [...currentCache.list, ...newItems.list]
-                //         };
-                //     }
-                //     return currentCache;
-                // },
                 forceRefetch({currentArg, previousArg}) {
                     return currentArg !== previousArg;
                 },

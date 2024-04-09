@@ -126,7 +126,7 @@ function UserProfilePopup() {
                                 views={["day", "month", "year"]}
                                 format="YYYY-MM-DD"
                                 label={"Date of birthday"}
-                                className={'date-picker'}
+                                className={'date-picker date_of_birth'}
                             />
                         </LocalizationProvider>
                     </Grid>

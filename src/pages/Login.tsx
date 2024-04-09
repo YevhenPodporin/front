@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useState} from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -6,14 +6,14 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useAuth } from "../api/hooks/useAuth";
-import { Link, useNavigate } from "react-router-dom";
-import { userSignInType } from '../Types/user';
-import { googleLogout, useGoogleLogin, Context, GoogleLogin } from '@react-oauth/google';
-import axios, { AxiosResponse } from 'axios';
-import { toast } from 'react-toastify';
-import { privateRoutes } from '../routes';
+import {createTheme, ThemeProvider} from '@mui/material/styles';
+import {useAuth} from "../api/hooks/useAuth";
+import {Link, useNavigate} from "react-router-dom";
+import {userSignInType} from '../Types/user';
+import {GoogleLogin} from '@react-oauth/google';
+import axios from 'axios';
+import {toast} from 'react-toastify';
+import {privateRoutes} from '../routes';
 
 
 const defaultTheme = createTheme();
@@ -125,7 +125,6 @@ function Login() {
 
                             {/*<button type={'button'} onClick={() => login()}>Sign in with Google 🚀</button>*/}
                             <GoogleLogin
-
                                 theme={'outline'}
                                 onSuccess={credentialResponse => {
                                     if (credentialResponse.credential) {

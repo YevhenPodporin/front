@@ -23,7 +23,20 @@ interface TabPanelProps {
 
 
 function Users(props: TabPanelProps) {
-    const {children,isFetching,searchValue, value,requestHandler, index, userDataLength, onSearch, nextFunction, tabValue, hasMore, users, ...other} = props;
+    const {
+        children,
+        isFetching,
+        searchValue,
+        value,
+        requestHandler,
+        index,
+        userDataLength,
+        onSearch,
+        nextFunction,
+        tabValue,
+        hasMore,
+        users,
+        ...other} = props;
 
     return (
         <div
@@ -55,7 +68,7 @@ function Users(props: TabPanelProps) {
                             </p>
                         }
                     >
-                        {users.length &&
+                        {users.length ?
                             <Grid id={'users_wrapper'} padding={'0 20px'} container spacing={{xs: 2, md: 3}}
                                   columns={{xs: 2, sm: 8, md: 20}}>
                                 {users.map((user, index) => (
@@ -67,6 +80,7 @@ function Users(props: TabPanelProps) {
                                     />
                                 ))}
                             </Grid>
+                            : null
                         }
                     </InfiniteScroll>
                 </Box></>)

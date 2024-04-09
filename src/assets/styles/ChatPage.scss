@@ -5,6 +5,7 @@
   height: calc(100vh - 84px);
   width: 100%;
   overflow: hidden;
+  position: relative;
 
   .chat_list_wrapper {
     transition: all 0.3s;
@@ -13,8 +14,9 @@
     position: relative;
     overflow: hidden;
     flex: 0 0 250px;
-    &.hide {
 
+    &.hide {
+      display: none;
     }
 
     .chat_list_items {
@@ -26,13 +28,16 @@
         cursor: pointer;
         gap: 10px;
         flex-wrap: nowrap;
-        .name_message{
+
+        .name_message {
           flex: 1 1 auto;
         }
-        .last_message{
+
+        .last_message {
           @include text_elipsis(70%);
 
         }
+
         &.active {
           background: #bb86fc;
         }
@@ -51,7 +56,14 @@
     flex-direction: column;
     justify-content: space-between;
     gap: 20px;
-
+    a{
+      letter-spacing: unset;
+      white-space: normal;
+      font-size: inherit;
+    }
+    audio{
+      max-width: 100%;
+    }
     .input_wrapper {
       flex: 0 1 30%;
       box-shadow: 10px 0 20px 0 rgba(0, 0, 0, 0.5);
@@ -115,7 +127,7 @@
         }
       }
 
-      .recording__voice{
+      .recording__voice {
 
       }
     }
@@ -210,39 +222,95 @@
   height: calc(100vh - 200px);
   scrollbar-width: none;
   -ms-overflow-style: none;
+
+
   &::-webkit-scrollbar {
     width: 0;
     height: 0;
     display: none;
   }
 
-.infinite__scroll{
-  display: flex;
-  flex-direction: column-reverse;
-  gap:50px;
-}
+  .infinite__scroll {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 50px;
+  }
+
+  .messages_date {
+    text-align: center;
+    padding: 5px 5px;
+    margin: 10px 0;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+    .chat_left_line, .chat_right_line {
+      height: 1px;
+      flex: 1 1 auto;
+      opacity: 0.3;
+      background: #000000;
+    }
+  }
+
   .message__item {
     display: flex;
     position: relative;
+    color: black;
 
-    .context_menu_wrapper{
-      position: absolute;
+    .avatar {
+      align-self: flex-end;
     }
+    .updated_at {
+      align-self: flex-end;
+      color: #616161;
+      position: absolute;
+      right: 0;
+      top: -22px;
+    }
+
+    .context_menu_wrapper {
+      position: fixed;
+      background: #bb86fc;
+      border-radius: 5px;
+      overflow: hidden;
+      color: #ffffff;
+      font-size: 12px;
+    }
+
     &.my_message {
-      color: green;
       justify-content: flex-end;
-      max-width: 90vw;
+      color: #ffffff;
+
+      .avatar {
+        margin-left: 10px;
+      }
+
       .item {
-        background: aquamarine;
+        background: #7527B2;
+        &:after {
+          position: absolute;
+          content: url("../images/my-message.svg");
+          bottom: -5px;
+          right: -6px;
+        }
       }
     }
 
     &.not_my {
-      color: red;
       justify-content: flex-start;
-      max-width: 90vw;
+
+      .avatar {
+        margin-right: 10px;
+      }
+
       .item {
-        background: #bb86fc;
+        background: #E9E9EB;
+        &:after {
+          position: absolute;
+          content: url("../images/other-message.svg");
+          bottom: -5px;
+          left: -6px;
+        }
       }
     }
 
@@ -251,25 +319,30 @@
       gap: 10px;
       border-radius: 10px;
       flex: 0 1 45%;
-      border: 1px solid #bb86fc;
       padding: 3px 10px;
       position: relative;
       display: flex;
       justify-content: space-between;
-      .time{
-        align-self: flex-end;
-        color: #616161;
+      @media screen and (max-width: 992px) {
+        flex: 1 1 auto;
       }
-      .image{
+      .time {
+        align-self: flex-end;
+        color: #ffffff;
+      }
+
+      .image {
         width: 100%;
         display: flex;
-        a{
-          &:hover{
+
+        a {
+          &:hover {
             color: white;
             backdrop-filter: none;
           }
         }
-        img{
+
+        img {
           width: 30%;
         }
       }

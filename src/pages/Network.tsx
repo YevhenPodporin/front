@@ -3,7 +3,6 @@ import * as React from 'react';
 import My from '../components/NetworkTabs/My';
 import Requests from '../components/NetworkTabs/Requests';
 import All from '../components/NetworkTabs/All';
-import { NetworkApi } from '../store/services/NetworkService';
 
 
 function a11yProps(index: number) {

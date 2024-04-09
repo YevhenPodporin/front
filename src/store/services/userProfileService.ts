@@ -5,7 +5,7 @@ import transformErrorResponse from '../../helpers/transformErrorResponse';
 export const UserProfileApi = createApi({
     reducerPath: 'userProfile',
     baseQuery: fetchBaseQuery({
-        baseUrl: `${process.env.REACT_APP_PUBLIC_URL}/profile`,
+        baseUrl: `${process.env.REACT_APP_PUBLIC_URL}/user/profile`,
         prepareHeaders: (headers) => {
             headers.set('authorization', `Bearer ${localStorage.getItem('token')}`);
             return headers

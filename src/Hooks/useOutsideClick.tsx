@@ -1,8 +1,5 @@
 import { useEffect, useRef } from "react";
 
-
-import React from 'react';
-
 function UseOutsideClick(showHideBlock:boolean, setShowHideBlock:(e:boolean)=>void) {
     const refPopup = useRef<any>(null);
     const clickOutsideListener = (e:any) => {

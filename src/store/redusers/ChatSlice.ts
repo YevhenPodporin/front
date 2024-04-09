@@ -1,6 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { chatListItem, Notifications } from '../../Types/Chat';
-
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {chatListItem, Notifications} from '../../Types/Chat';
 
 interface ChatListState {
     data: chatListItem[] | [],
@@ -14,7 +13,6 @@ const initialState: ChatListState = {
     error: '',
 }
 
-
 export const chatSlice = createSlice({
     name: 'chatList',
     initialState,
@@ -22,25 +20,27 @@ export const chatSlice = createSlice({
         setChatList: (state, action: PayloadAction<chatListItem[]>) => {
             state.data = action.payload
         },
-        removeUnreadMessage:(state, action:PayloadAction<number>)=>{
-            state.data = state.data.map(chat=>{
-                if(chat.id === action.payload){
+        removeUnreadMessage: (state, action: PayloadAction<number>) => {
+            state.data = state.data.map(chat => {
+                if (chat.id === action.payload) {
                     return {
                         ...chat,
-                        unread_messages:0}
-                }else{
+                        unread_messages: 0
+                    }
+                } else {
                     return chat
                 }
             })
         },
-        editNotification:(state,action:PayloadAction<Notifications>)=>{
-            state.data = state.data.map(chat=>{
-                if(chat.id === action.payload.to_chat_id){
+        editNotification: (state, action: PayloadAction<Notifications>) => {
+            state.data = state.data.map(chat => {
+                if (chat.id === action.payload.to_chat_id) {
                     return {
                         ...chat,
-                        last_message:action.payload.message,
-                        unread_messages:action.payload.unread_messages}
-                }else{
+                        last_message: action.payload.message,
+                        unread_messages: action.payload.unread_messages
+                    }
+                } else {
                     return chat
                 }
             })

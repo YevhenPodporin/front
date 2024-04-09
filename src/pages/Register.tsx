@@ -70,7 +70,7 @@ function Register() {
                     </Typography>
 
                     {fileUrl && <><Grid item mt={3} xs={12} sm={6} className={'upload-avatar'} title={"Avatar"}>
-                        <img src={fileUrl}/>
+                        <img src={fileUrl} alt={''}/>
                     </Grid>
                         <Typography component="p" variant="body1">
                             Avatar

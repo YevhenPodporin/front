@@ -17,7 +17,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({element}) => {
         if (!isAuth) {
             toast.error('You are not authorized')
         }
-    }, [])
+    }, [isAuth])
     return isAuth ? (
         <>
             {loading && <CircularProgress sx={{position:'fixed', top:'50%',left:'50%'}} />}

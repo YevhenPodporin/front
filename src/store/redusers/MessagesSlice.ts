@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { chatListItem, messageListItem, MessagesResponse } from '../../Types/Chat';
+import { messageListItem, MessagesResponse } from '../../Types/Chat';
 import { Direction, OrderBy, PaginationParams } from '../../Types/Network';
-import { ListType } from './NetworkSlice';
 
 
 interface MessagesState {
