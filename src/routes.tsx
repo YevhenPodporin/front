@@ -2,7 +2,6 @@ import Login from "./pages/Login";
 import Chat from "./pages/Chat";
 import Network from "./pages/Network";
 import Register from "./pages/Register";
-import TestPage from './pages/Test';
 import ChatById from './pages/ChatById';
 
 export const privateRoutes = [
@@ -20,12 +19,6 @@ export const privateRoutes = [
         path: '/network',
         Component: Network
     },
-    {
-        title: "Test",
-        path: '/test',
-        Component: TestPage
-    },
-
 ]
 
 export const publicRoutes = [

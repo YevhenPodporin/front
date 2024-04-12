@@ -136,6 +136,7 @@ function ChatInput({
       {isRecording && <span>Record: {recordingTime} sec.</span>}
       <Box display={"flex"} borderRadius={10} className={"input_wrapper_flex"}>
         <TextField
+          id={'chat_main_input'}
           autoFocus={true}
           className={"input"}
           maxRows={4}

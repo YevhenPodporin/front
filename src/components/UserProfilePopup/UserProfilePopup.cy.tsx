@@ -1,10 +1,7 @@
 import React from "react";
 import UserProfilePopup from "./UserProfilePopup";
-import { setupStore } from "../../store/store";
-import { Provider } from "react-redux";
 
 describe("<UserProfilePopup />", () => {
-  const store = setupStore();
   beforeEach(() => cy.mount(<UserProfilePopup />));
 
   it("check exists elements", () => {
